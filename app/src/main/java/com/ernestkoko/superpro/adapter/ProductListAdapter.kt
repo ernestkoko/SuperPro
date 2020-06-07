@@ -1,15 +1,14 @@
 package com.ernestkoko.superpro.adapter
 
-import android.content.Context
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
+import android.widget.ImageView
 
-import android.widget.TextView
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.ernestkoko.superpro.R
 import com.ernestkoko.superpro.data.Product
+import com.ernestkoko.superpro.databinding.ProductRecyclerItemBinding
 import com.ernestkoko.superpro.screens.products.ProductsDiffCallback
 // ListAdapter takes care of the list.
 //It figures out the getItemCount also
@@ -57,22 +56,23 @@ class ProductListAdapter: ListAdapter<Product, ProductListAdapter.ProductViewHol
 
 
     //The view holder class
-     class ProductViewHolder  private constructor (itemView: View) : RecyclerView.ViewHolder(itemView) {
-        val productName: TextView = itemView.findViewById(R.id.product_name)
-        val productManufacturer: TextView = itemView.findViewById(R.id.prod_manufacturer)
+     class ProductViewHolder  private constructor (val binding: ProductRecyclerItemBinding)
+        : RecyclerView.ViewHolder(binding.root) {
+        val productImage: ImageView = binding.productImage
         //val productName: TextView = itemView.findViewById(R.id.product_name)
 
         //responsible for binding the views
         fun bind(currentProduct: Product) {
-            productName?.text = currentProduct.productName
-            productManufacturer?.text = currentProduct.prodManufacturer
+            binding.productName?.text = currentProduct.productName
+            binding.prodManufacturer?.text = currentProduct.prodManufacturer
+            binding.productImage.setImageResource(R.drawable.ic_add)
         }
 
         companion object {
             fun from( parent: ViewGroup): ProductViewHolder {
-                val view = LayoutInflater.from(parent.context)
-                    .inflate(R.layout.product_recycler_item, parent, false)
-                return ProductViewHolder(view)
+                val layoutInflater = LayoutInflater.from(parent.context)
+                val binding = ProductRecyclerItemBinding.inflate(layoutInflater, parent, false)
+                return ProductViewHolder(binding)
             }
         }
 
