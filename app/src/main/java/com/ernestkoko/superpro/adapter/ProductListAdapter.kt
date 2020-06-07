@@ -63,9 +63,8 @@ class ProductListAdapter: ListAdapter<Product, ProductListAdapter.ProductViewHol
 
         //responsible for binding the views
         fun bind(currentProduct: Product) {
-            binding.productName?.text = currentProduct.productName
-            binding.prodManufacturer?.text = currentProduct.prodManufacturer
-            binding.productImage.setImageResource(R.drawable.ic_add)
+            binding.product = currentProduct
+            binding.executePendingBindings()
         }
 
         companion object {
