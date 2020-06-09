@@ -17,7 +17,7 @@
     <fragment
         android:id="@+id/newProductFragment"
         android:name="com.ernestkoko.superpro.screens.newproducts.NewProductFragment"
-        android:label="fragment_new_product"
+        android:label="@string/new_product"
         tools:layout="@layout/fragment_new_product" >
         <action
             android:id="@+id/action_newProductFragment_to_productsFragment"

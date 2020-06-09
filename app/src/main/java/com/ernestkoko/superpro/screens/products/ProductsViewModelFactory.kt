@@ -6,14 +6,12 @@ import androidx.lifecycle.ViewModelProvider
 import com.ernestkoko.superpro.data.ProductsDao
 import java.lang.IllegalArgumentException
 
-class ProductsViewModelFactory (
-    private val dataSource: ProductsDao,
-    private val application: Application): ViewModelProvider.Factory{
+class ProductsViewModelFactory (private val application: Application): ViewModelProvider.Factory{
     @Suppress("unchecked_cast")
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
         if (modelClass.isAssignableFrom(ProductViewModel::class.java)){
             return ProductViewModel(
-                dataSource, application
+                 application
             ) as T
         }
         throw  IllegalArgumentException("Unknown viewModel class")

@@ -10,7 +10,7 @@ interface ProductsDao {
     fun getProductsByName(): LiveData<List<Product>>
 
     // insert a product in the table. suspend keeps the operation will when it can perform
-    @Insert(onConflict = OnConflictStrategy.IGNORE)
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     suspend fun insert(product: Product )
     //update product
     @Update
