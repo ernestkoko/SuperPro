@@ -31,12 +31,17 @@ class ProductViewModel(
        allProducts1 = repository.getAllProducts
     }
 
-//    fun insert(product: Product){
-//        viewModelScope.launch(Dispatchers.IO){
-//           // repository.insert(product)
-//        }
-//    }
+private val _navigateToProduct = MutableLiveData<Long>()
+    val navigateToProduct
+    get() = _navigateToProduct
 
+    fun onProductClicked(id: Long){
+        _navigateToProduct.value = id
+    }
+    //called after navigation is done
+    fun onProductNavigated(){
+        _navigateToProduct.value = null
+    }
 
     override fun onCleared() {
         super.onCleared()

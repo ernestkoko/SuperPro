@@ -2,6 +2,8 @@ apply plugin: 'com.android.application'
 apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'kotlin-kapt'
+apply plugin: "androidx.navigation.safeargs.kotlin"
+
 
 
 android {
@@ -30,7 +32,7 @@ android {
         exclude 'META-INF/atomicfu.kotlin_module'
     }
 
-    dataBinding{
+    dataBinding {
         enabled = true
     }
 
@@ -72,4 +74,8 @@ dependencies {
     //navigation
     implementation 'androidx.navigation:navigation-fragment-ktx:2.2.2'
     implementation 'androidx.navigation:navigation-ui-ktx:2.2.2'
+
+
+
+
 }

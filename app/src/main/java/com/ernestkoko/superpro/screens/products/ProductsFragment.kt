@@ -12,17 +12,15 @@ import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.ernestkoko.superpro.R
 import com.ernestkoko.superpro.adapter.ProductClickListener
 import com.ernestkoko.superpro.adapter.ProductListAdapter
-import com.ernestkoko.superpro.data.Product
-import com.ernestkoko.superpro.data.ProductDatabase
-
-//import androidx.databinding.DataBindingUtil
 import com.ernestkoko.superpro.databinding.FragmentProductsBinding
+
 
 /**
  * A simple [Fragment] subclass.
@@ -53,10 +51,19 @@ class ProductsFragment : Fragment() {
 
         binding.recyclerView.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
         val adapter = ProductListAdapter(ProductClickListener {
-            productId -> Toast.makeText(context, "${productId}", Toast.LENGTH_LONG).show()
+            productId -> viewModel.onProductClicked(productId)
         })
         binding.recyclerView.adapter = adapter
        // val layoutManager = LinearLayoutManager(activity)
+        viewModel.navigateToProduct.observe(viewLifecycleOwner, Observer {product ->
+            product?.let {
+                //navigate to Product details screen where the details will be shown and can be
+                // edited
+                //Navigate by passing the id of the product as args
+             this.findNavController().navigate(ProductsFragmentDirections.actionProductsFragmentToProductDetails(it))
+            }
+
+        })
 
 
 

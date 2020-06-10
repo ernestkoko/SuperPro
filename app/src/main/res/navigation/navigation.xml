@@ -13,6 +13,9 @@
         <action
             android:id="@+id/action_productsFragment_to_newProductFragment"
             app:destination="@id/newProductFragment" />
+        <action
+            android:id="@+id/action_productsFragment_to_productDetails"
+            app:destination="@id/productDetails" />
     </fragment>
     <fragment
         android:id="@+id/newProductFragment"
@@ -22,5 +25,18 @@
         <action
             android:id="@+id/action_newProductFragment_to_productsFragment"
             app:destination="@id/productsFragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/productDetails"
+        android:name="com.ernestkoko.superpro.ProductDetails"
+        android:label="fragment_product_details"
+        tools:layout="@layout/fragment_product_details" >
+        <action
+            android:id="@+id/action_productDetails_to_productsFragment"
+            app:destination="@id/productsFragment" />
+
+    <argument
+        android:name="productId"
+        app:argType="long"/>
     </fragment>
 </navigation>
