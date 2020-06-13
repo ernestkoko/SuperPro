@@ -50,17 +50,21 @@ class ProductsFragment : Fragment() {
         binding.setLifecycleOwner(this)
 
         binding.recyclerView.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
+       //tell the adapter about the id of the view that was clicked
         val adapter = ProductListAdapter(ProductClickListener {
-            productId -> viewModel.onProductClicked(productId)
+            productId -> viewModel.onProductItemClicked(productId)
         })
         binding.recyclerView.adapter = adapter
        // val layoutManager = LinearLayoutManager(activity)
-        viewModel.navigateToProduct.observe(viewLifecycleOwner, Observer {product ->
+        viewModel.navigateToProductDetails.observe(viewLifecycleOwner, Observer {product ->
             product?.let {
                 //navigate to Product details screen where the details will be shown and can be
                 // edited
                 //Navigate by passing the id of the product as args
-             this.findNavController().navigate(ProductsFragmentDirections.actionProductsFragmentToProductDetails(it))
+             this.findNavController().navigate(ProductsFragmentDirections
+                 .actionProductsFragmentToProductDetails(product))
+                //call the navigated method to set the value of the id to null
+                viewModel.onProductDetailsNavigated()
             }
 
         })

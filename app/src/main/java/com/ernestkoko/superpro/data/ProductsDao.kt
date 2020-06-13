@@ -20,7 +20,7 @@ interface ProductsDao {
     fun getAProduct(): Product
     //get a product by id
     @Query("SELECT * FROM products_table WHERE id = :key")
-    fun getProductById(key: Long): Product
+    fun getProductById(key: Long): LiveData<Product>
 
     //get all products by ID
     @Query("SELECT * FROM products_table ORDER BY id ASC")

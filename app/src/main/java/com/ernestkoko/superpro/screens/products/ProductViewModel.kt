@@ -31,16 +31,19 @@ class ProductViewModel(
        allProducts1 = repository.getAllProducts
     }
 
-private val _navigateToProduct = MutableLiveData<Long>()
-    val navigateToProduct
-    get() = _navigateToProduct
 
-    fun onProductClicked(id: Long){
-        _navigateToProduct.value = id
+    //navigate to product details
+    private val _navigateToProductDetails = MutableLiveData<Long>()
+    val navigateToProductDetails
+    get() = _navigateToProductDetails
+
+    //set the id of the item clicked
+    fun onProductItemClicked(id: Long){
+        _navigateToProductDetails.value = id
     }
-    //called after navigation is done
-    fun onProductNavigated(){
-        _navigateToProduct.value = null
+    //called the navigation is done
+    fun onProductDetailsNavigated(){
+        _navigateToProductDetails.value = null
     }
 
     override fun onCleared() {

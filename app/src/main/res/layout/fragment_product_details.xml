@@ -1,43 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
+
     <data>
+
         <variable
             name="productDetailsViewModel"
             type="com.ernestkoko.superpro.screens.product_details.ProductDetailsViewModel" />
 
     </data>
-<ScrollView
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".screens.product_details.ProductDetails">
 
-
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:layout_margin="@dimen/margin_12dp"
-        android:text="@string/hello_blank_fragment" >
-        <com.google.android.material.textview.MaterialTextView
-            android:id="@+id/product_name_text_view"
-            android:text="Product Name"
-            style="@style/text_view_style" />
-        <com.google.android.material.textview.MaterialTextView
-            style="@style/text_view_style"
-            android:id="@+id/product_manu_text_view"
-            android:text="Manufacturer"/>
-        <com.google.android.material.textview.MaterialTextView
-            style="@style/text_view_style"
-            android:id="@+id/supplier_text_view"
-            android:text="Supplier"/>
-        <com.google.android.material.textview.MaterialTextView
-            style="@style/text_view_style"
-            android:id="@+id/inventory_date"
-            android:text="Purchase Date"/>
+        tools:context=".screens.product_details.ProductDetails">
 
 
-    </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_margin="@dimen/margin_12dp"
+            android:orientation="vertical"
+            android:text="@string/hello_blank_fragment">
 
-</ScrollView>
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/product_name_text_view"
+                style="@style/text_view_style"
+                android:text="Product Name" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/product_manu_text_view"
+                style="@style/text_view_style"
+                android:text="Manufacturer" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/product_supplier_text_view"
+                style="@style/text_view_style"
+                android:text="Supplier" />
+
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/product_inventory_date"
+                style="@style/text_view_style"
+                android:text="Purchase Date" />
+            <CalendarView
+                android:id="@+id/calendar"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+
+        </LinearLayout>
+
+    </ScrollView>
 </layout>
