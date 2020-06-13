@@ -71,9 +71,10 @@ class ProductsFragment : Fragment() {
         viewModel.allProducts1.observe(viewLifecycleOwner, Observer {
             it?.let {
                 //listAdapter uses submitList()
+                //submit the list of Products to the adapter
                adapter.submitList(it)
 
-                Log.i("ProductsFrag", it.toString())
+               // Log.i("ProductsFrag", it.toString())
             }
 
         })
@@ -82,6 +83,7 @@ class ProductsFragment : Fragment() {
 
 
        binding.addFab.setOnClickListener{view ->
+           // navigate to the new product fragment where new product can be added
            view.findNavController().navigate(R.id.action_productsFragment_to_newProductFragment)
        }
 

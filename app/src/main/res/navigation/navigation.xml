@@ -28,7 +28,7 @@
     </fragment>
     <fragment
         android:id="@+id/productDetails"
-        android:name="com.ernestkoko.superpro.ProductDetails"
+        android:name="com.ernestkoko.superpro.screens.product_details.ProductDetails"
         android:label="fragment_product_details"
         tools:layout="@layout/fragment_product_details" >
         <action

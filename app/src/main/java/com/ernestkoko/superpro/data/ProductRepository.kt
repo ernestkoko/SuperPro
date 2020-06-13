@@ -17,9 +17,10 @@ class ProductRepository (private val productDao: ProductsDao){
     suspend fun update(product: Product){
         productDao.update(product)
     }
-//     fun getAProduct(key: Long): Product{
-//       //return productDao.getAProduct(key)
-//    }
+     //get product by id
+     fun getAProduct(key: Long): Product{
+       return productDao.getProductById(key)
+   }
     fun getProductByName(): LiveData<List<Product>>{
         return productDao.getProductsByName()
     }

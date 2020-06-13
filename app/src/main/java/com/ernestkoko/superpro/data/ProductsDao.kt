@@ -10,14 +10,17 @@ interface ProductsDao {
     fun getProductsByName(): LiveData<List<Product>>
 
     // insert a product in the table. suspend keeps the operation will when it can perform
-    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    @Insert(onConflict = OnConflictStrategy.IGNORE)
     suspend fun insert(product: Product )
     //update product
-    @Update
+    @Update(onConflict = OnConflictStrategy.REPLACE)
     suspend fun update(product: Product)
     //get a product
     @Query("SELECT * FROM products_table ORDER BY id LIMIT 1")
     fun getAProduct(): Product
+    //get a product by id
+    @Query("SELECT * FROM products_table WHERE id = :key")
+    fun getProductById(key: Long): Product
 
     //get all products by ID
     @Query("SELECT * FROM products_table ORDER BY id ASC")

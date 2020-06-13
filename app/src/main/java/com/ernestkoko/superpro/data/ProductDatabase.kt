@@ -37,24 +37,24 @@ import kotlinx.coroutines.launch
         }
     }
 
-    private class ProductDatabaseCallBack(
-        val scope: CoroutineScope
-    ):RoomDatabase.Callback(){
-        override fun onOpen(db: SupportSQLiteDatabase) {
-            super.onOpen(db)
-            INSTANCE?.let { database ->
-                scope.launch {
-                    var productDao = database.productDao()
-
-                    //delete all content
-                    productDao.deleteAll()
-
-                    //add sample products
-                    var product = Product(1, "ToothBrush", "Macleans")
-                    productDao.insert(product);
-                }
-            }
-        }
-    }
+//    private class ProductDatabaseCallBack(
+//        val scope: CoroutineScope
+//    ):RoomDatabase.Callback(){
+//        override fun onOpen(db: SupportSQLiteDatabase) {
+//            super.onOpen(db)
+//            INSTANCE?.let { database ->
+//                scope.launch {
+//                    var productDao = database.productDao()
+//
+//                    //delete all content
+//                    productDao.deleteAll()
+//
+//                    //add sample products
+//                    var product = Product(1, "ToothBrush", "Macleans")
+//                    productDao.insert(product);
+//                }
+//            }
+//        }
+//    }
 
 }
