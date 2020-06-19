@@ -30,7 +30,7 @@ class ProductDetails : Fragment() {
 
         //get the application
         val application = requireNotNull(this.activity).application
-        //get the value of the id
+        //get product with the aid of the id value from bundle
         val arguments = ProductDetailsArgs.fromBundle(arguments!!)
         //create the viewModel factory
         val viewModelFactory = ProductDetailsViewModelFactory(arguments.productId, application)
@@ -42,13 +42,13 @@ class ProductDetails : Fragment() {
         binding.setLifecycleOwner(this)
 
         //observer
-        viewModel.product1.observe(viewLifecycleOwner, Observer {
-
-            binding.productNameTextView.setText(it.productName)
-            binding.productManuTextView.setText(it.prodManufacturer)
-            binding.productInventoryDate.setText(it.productExpiryDate.toString())
-            Log.i("ProductDetails", "Name is: " + it.productName)
-        })
+//        viewModel.product1.observe(viewLifecycleOwner, Observer {
+//
+//           // binding.productNameTextView.setText(it.productName)
+//            binding.productManuTextView.setText(it.prodManufacturer)
+//            binding.productInventoryDate.setText(it.productExpiryDate.toString())
+//           // Log.i("ProductDetails", "Name is: " + it.productName)
+//        })
 
 
 

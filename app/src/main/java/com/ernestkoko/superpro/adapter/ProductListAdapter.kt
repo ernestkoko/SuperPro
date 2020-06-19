@@ -33,10 +33,10 @@ class ProductListAdapter(
     }
 
 
-    internal fun setProducts(products: List<Product>) {
-        this.products = products
-        notifyDataSetChanged()
-    }
+//    internal fun setProducts(products: List<Product>) {
+//        this.products = products
+//        notifyDataSetChanged()
+//    }
 
 
     //The view holder class
@@ -84,7 +84,7 @@ class ProductsDiffCallback : DiffUtil.ItemCallback<Product>() {
 
 }
 
-//click listener
+//click listener for every item on the recycler view
 class ProductClickListener(val clickListener: (productId: Long) -> Unit) {
     fun onClick(product: Product) = clickListener(product.id)
 }

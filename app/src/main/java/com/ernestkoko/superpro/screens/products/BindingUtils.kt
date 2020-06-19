@@ -17,3 +17,9 @@ fun TextView.setProductManufacturer(product: Product?){
         text = product.prodManufacturer
     }
 }
+@BindingAdapter("productExpiryDate")
+fun TextView.setProductExpiryDate(product: Product?){
+    product?.let {
+        text = product.productExpiryDate.toString()
+    }
+}

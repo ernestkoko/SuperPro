@@ -3,6 +3,7 @@ package com.ernestkoko.superpro.data
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import java.util.*
 
 @Entity(tableName = "products_table")
 data class Product(
@@ -20,7 +21,7 @@ data class Product(
 
     //product expiry date
     @ColumnInfo(name = "product_Expiry_date")
-    var productExpiryDate: Long? = null,
+    var productExpiryDate: Date?,
 
     //product manufacturer
     @ColumnInfo(name = "manufacturer")

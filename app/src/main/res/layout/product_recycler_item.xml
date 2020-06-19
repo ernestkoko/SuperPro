@@ -36,7 +36,7 @@
                 android:layout_height="match_parent"
                 android:layout_marginRight="4dp"
                 android:text="Product Name"
-                android:textAlignment="center"
+               android:textAlignment="textStart"
                 android:layout_weight="1"
                 app:productName="@{product}"
                 />
@@ -48,8 +48,15 @@
                 android:text="Manufacturer"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
-                android:textAlignment="center"
+                android:textAlignment="textStart"
                 app:productManufacturer="@{product}"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/prod_expiry_date_text"
+                android:layout_weight="1"
+                app:productExpiryDate="@{product}"
+                />
 
 
         </LinearLayout>

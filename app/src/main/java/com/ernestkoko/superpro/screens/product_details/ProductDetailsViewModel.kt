@@ -21,6 +21,7 @@ class ProductDetailsViewModel( private val productId: Long = 0L,
     private val repository: ProductRepository
     //
     val product1: LiveData<Product>
+    get() = product
 
     init {
         // create access to the Dao through the database instance
@@ -29,8 +30,8 @@ class ProductDetailsViewModel( private val productId: Long = 0L,
         repository = ProductRepository(productDao)
         //get the product with the  id passed
      product.addSource(repository.getProductById(productId),product::setValue)
-        product1 = repository.getProductById(productId)
+       // product1 = repository.getProductById(productId)
     }
     // the live data that the xml file will observe
-    val prodName = product
+    val prodName = product1
 }

@@ -2,6 +2,7 @@ package com.ernestkoko.superpro.screens.newproducts
 
 import android.app.Application
 import android.util.Log
+import androidx.databinding.Bindable
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -14,6 +15,10 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
+import java.lang.reflect.Array.set
+import java.text.SimpleDateFormat
+import java.time.LocalDate
+import java.util.*
 
 class NewProductViewModel(
     application: Application
@@ -51,20 +56,30 @@ class NewProductViewModel(
 
 
 
+
     // product Expiry Date
-    private var _prodExpiryDate: Long
-    fun setProdExpiryDate(date: String){
-        _prodExpiryDate = date.toLong()
+    private var _prodExpiryDate: Int? = null
+    private var _month: Int? = null
+    private var _year: Int? = null
+    fun setProdExpiryDate(date: Int, month: Int, year: Int){
+        _prodExpiryDate = date
+        _month = month
+        _year = year
+
     }
+    //set edit text
+
+    var setEditText = MutableLiveData<String>()
 
 
-//    var prodExpirydate: LiveData<Long?>
+
+
 
     init {
         _prodName = "Not Set"
         _prodManufacturer = "Not Set"
         _prodQuantity = 1
-        _prodExpiryDate = System.currentTimeMillis()
+       // _prodExpiryDate = System.currentTimeMillis()
     }
 
     //create a job
@@ -93,12 +108,34 @@ class NewProductViewModel(
     }
     //called when the submit button is clicked in the fragment layout xml
     fun onInsert(){
+        val expDate = convertIntToTime(_prodExpiryDate!!, _month!!, _year!! )
         val product = Product(0, _prodName, _prodQuantity.toString().toLong(),
-        _prodExpiryDate.toString().toLong(), _prodManufacturer)
+        expDate, _prodManufacturer)
 
-        //insert into db
+       // insert into db
         insert(product)
         Log.i("NewProdVMInsert", "onInsertFired")
+    }
+    //convert Long to time
+    private fun convertIntToTime(day: Int, month: Int, year: Int): Date {
+        var date:Date
+        val calendar = Calendar.getInstance()
+        calendar.set(year,month,day)
+        val inputFormat = SimpleDateFormat("YY.MM.dd")
+        date = inputFormat.parse(calendar.time.toString())
+
+        //val format = SimpleDateFormat("yyyy.MM.dd HH:mm")
+        val format = SimpleDateFormat("yyyy/MM/dd")
+        format.format(date)
+        Log.i("DateFormat:", date.toString() )
+        return date
+    }
+
+    // set the text to the date edit text
+    fun setDateToEditText(date: String?){
+
+        setEditText.value = date
+
     }
 
 }

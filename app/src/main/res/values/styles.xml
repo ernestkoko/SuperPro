@@ -6,6 +6,9 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:datePickerStyle">@style/MyDatePicker</item>
+    </style>
+    <style name="MyDatePicker" parent="android:Widget.Material.Light.DatePicker">
     </style>
 
     <style name="text_view_style">

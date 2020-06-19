@@ -1,5 +1,6 @@
 package com.ernestkoko.superpro.screens.newproducts
 
+import android.app.DatePickerDialog
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -8,12 +9,14 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.DatePicker
 import androidx.core.widget.addTextChangedListener
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import com.ernestkoko.superpro.R
 import com.ernestkoko.superpro.data.Product
 import com.ernestkoko.superpro.databinding.FragmentNewProductBinding
+import java.util.*
 
 /**
  * A simple [Fragment] subclass.
@@ -55,7 +58,7 @@ class NewProductFragment : Fragment() {
             override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {}
         })
         //set the quantity
-        binding.productQuantityEdit.addTextChangedListener(object: TextWatcher{
+        binding.productQuantityEdit.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
                 //set the value of the field
                 viewModel.setProdQuantity(s.toString().toLong())
@@ -71,7 +74,7 @@ class NewProductFragment : Fragment() {
             }
         })
         //set the manufacturer
-        binding.productManufacturerEdit.addTextChangedListener(object: TextWatcher{
+        binding.productManufacturerEdit.addTextChangedListener(object : TextWatcher {
             override fun afterTextChanged(s: Editable?) {
                 viewModel.setProdManufacturer(s.toString())
             }
@@ -84,20 +87,53 @@ class NewProductFragment : Fragment() {
         })
 
         //set expiry date
-        binding.productExpiryDate.addTextChangedListener(object: TextWatcher{
-            override fun afterTextChanged(s: Editable?) {
-                //set the product expiry date
-               viewModel.setProdExpiryDate(s.toString())
-            }
+//        binding.productExpiryDate.addTextChangedListener(object : TextWatcher {
+//            override fun afterTextChanged(s: Editable?) {
+//                //set the product expiry date
+//                viewModel.setProdExpiryDate(s.toString())
+//            }
+//
+//            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
+//
+//            }
+//
+//            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
+//
+//            }
+//        })
 
-            override fun beforeTextChanged(s: CharSequence?, start: Int, count: Int, after: Int) {
-                TODO("Not yet implemented")
-            }
 
-            override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-                TODO("Not yet implemented")
-            }
-        })
+        //date
+        val date = Date()
+        //date picker dialogue
+        val c = Calendar.getInstance()
+        val year = c.get(Calendar.YEAR)
+        val month = c.get(Calendar.MONTH)
+        val day = c.get(Calendar.DAY_OF_MONTH)
+
+        binding.buttonPickDate.setOnClickListener {
+
+            val dpd = DatePickerDialog(
+                this.requireContext(),
+                object : DatePickerDialog.OnDateSetListener {
+                    override fun onDateSet(
+                        view: DatePicker?, year: Int, month: Int, dayOfMonth: Int
+                    ) {
+                        // c.time = date
+                        viewModel.setProdExpiryDate(
+                            dayOfMonth,
+                            month, year
+                        )
+                        viewModel.setDateToEditText(dayOfMonth.toString() + month.toString() + year.toString())
+
+
+                    }
+
+                }, year, month, day
+            )
+            dpd.show()
+
+        }
 
 
 
