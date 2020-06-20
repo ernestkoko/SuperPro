@@ -5,7 +5,6 @@ apply plugin: 'kotlin-kapt'
 apply plugin: "androidx.navigation.safeargs.kotlin"
 
 
-
 android {
     compileSdkVersion 29
     buildToolsVersion "29.0.3"
@@ -75,10 +74,10 @@ dependencies {
     implementation 'androidx.navigation:navigation-fragment-ktx:2.2.2'
     implementation 'androidx.navigation:navigation-ui-ktx:2.2.2'
 
-    //working image
-   implementation "com.github.bumptech.glide:glide:4.11.0"
-
-
+    //working image glide
+    implementation "com.github.bumptech.glide:glide:4.11.0"
+    //or use Picasso
+    implementation 'com.squareup.picasso:picasso:2.71828'
 
 
 }

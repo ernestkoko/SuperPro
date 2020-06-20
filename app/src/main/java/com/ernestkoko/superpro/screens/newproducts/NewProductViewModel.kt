@@ -109,11 +109,11 @@ class NewProductViewModel(
     //called when the submit button is clicked in the fragment layout xml
     fun onInsert(){
         val expDate = convertIntToTime(_prodExpiryDate!!, _month!!, _year!! )
-        val product = Product(0, _prodName, _prodQuantity.toString().toLong(),
-        expDate, _prodManufacturer)
-
-       // insert into db
-        insert(product)
+//        val product = Product(0, _prodName, _prodQuantity.toString().toLong(),
+//        expDate, _prodManufacturer)
+//
+//       // insert into db
+//        insert(product)
         Log.i("NewProdVMInsert", "onInsertFired")
     }
     //convert Long to time

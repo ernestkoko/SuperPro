@@ -1,7 +1,15 @@
 package com.ernestkoko.superpro.screens.products
 
+import android.content.Intent
+import android.provider.MediaStore
+import android.widget.ImageView
 import android.widget.TextView
+import androidx.core.net.toUri
+
 import androidx.databinding.BindingAdapter
+import com.bumptech.glide.Glide
+import com.bumptech.glide.request.RequestOptions
+import com.ernestkoko.superpro.R
 import com.ernestkoko.superpro.data.Product
 
 @BindingAdapter("productName")
@@ -21,5 +29,19 @@ fun TextView.setProductManufacturer(product: Product?){
 fun TextView.setProductExpiryDate(product: Product?){
     product?.let {
         text = product.productExpiryDate.toString()
+    }
+}
+@BindingAdapter("imageUrl")
+fun bindImage(imgView: ImageView, imgUrl: String?) {
+    imgUrl?.let {
+      val gallery = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI)
+        //use glide to load the image
+        Glide.with(imgView.context)
+            .load(gallery)
+            .apply(
+                RequestOptions()
+                .placeholder(R.drawable.ic_launcher_background)
+                .error(R.drawable.ic_add))
+            .into(imgView)
     }
 }
