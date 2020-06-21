@@ -166,6 +166,7 @@ class NewProductFragment : Fragment() {
         if (requestCode == 1) {
             Toast.makeText(context, "Image gotten!",Toast.LENGTH_LONG).show()
             //get the image with picasso and display it on the image view
+            Picasso.get().setIndicatorsEnabled(true)
             Picasso.get().load(imageUrl).fit().centerCrop().into(binding.newProductImage)
         } else{
             Toast.makeText(context, "Image not gotten!",Toast.LENGTH_LONG).show()
