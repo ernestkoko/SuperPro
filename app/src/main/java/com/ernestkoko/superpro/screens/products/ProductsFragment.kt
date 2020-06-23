@@ -8,11 +8,14 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.widget.Toolbar
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.setupWithNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -36,6 +39,12 @@ class ProductsFragment : Fragment() {
         // Inflate the layout for this fragment
        val binding: FragmentProductsBinding =
            DataBindingUtil.inflate(inflater,R.layout.fragment_products,container, false)
+        //find the navController and set up the tool bar
+        val navController = findNavController()
+        val drawer = binding.drawerLayout
+        val appBarConfiguration = AppBarConfiguration(navController.graph, drawer)
+       binding.productToolBar
+            .setupWithNavController(navController, appBarConfiguration)
 
 
         //get the application context. requiredNotNull throws illegal arg exception if it is null

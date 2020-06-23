@@ -25,6 +25,9 @@ import androidx.core.content.FileProvider
 import androidx.core.widget.addTextChangedListener
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
+import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.setupWithNavController
 import com.bumptech.glide.Glide
 import com.bumptech.glide.request.RequestOptions
 import com.ernestkoko.superpro.R
@@ -61,6 +64,13 @@ class NewProductFragment : Fragment() {
         // Inflate the layout for this fragment
         binding =
             DataBindingUtil.inflate(layoutInflater, R.layout.fragment_new_product, container, false)
+
+        //find the navController and set up the tool bar
+        val navController = findNavController()
+        val appBarConfiguration = AppBarConfiguration(navController.graph)
+        binding.productToolBar
+            .setupWithNavController(navController, appBarConfiguration)
+
         //create the application
         val application = requireNotNull(this.activity).application
         //create the viewModel factory

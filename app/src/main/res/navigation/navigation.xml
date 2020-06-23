@@ -15,13 +15,13 @@
             app:destination="@id/newProductFragment"
             app:enterAnim="@anim/from_right"
             app:exitAnim="@anim/to_left"
-            app:popEnterAnim="@anim/from_right"
-            app:popExitAnim="@anim/to_left" />
+            app:popEnterAnim="@anim/from_left"
+            app:popExitAnim="@anim/to_right" />
         <action
             android:id="@+id/action_productsFragment_to_productDetails"
             app:destination="@id/productDetails"
-            app:enterAnim="@anim/from_right"
-            app:exitAnim="@anim/to_left"
+            app:enterAnim="@anim/from_left"
+            app:exitAnim="@anim/to_right"
             app:popEnterAnim="@anim/from_right"
             app:popExitAnim="@anim/to_left" />
     </fragment>
@@ -34,9 +34,7 @@
             android:id="@+id/action_newProductFragment_to_productsFragment"
             app:destination="@id/productsFragment"
             app:enterAnim="@anim/from_left"
-            app:exitAnim="@anim/to_right"
-            app:popEnterAnim="@anim/from_left"
-            app:popExitAnim="@anim/to_right" />
+            app:exitAnim="@anim/to_right" />
     </fragment>
     <fragment
         android:id="@+id/productDetails"
@@ -46,10 +44,8 @@
         <action
             android:id="@+id/action_productDetails_to_productsFragment"
             app:destination="@id/productsFragment"
-            app:enterAnim="@anim/from_left"
-            app:exitAnim="@anim/to_right"
-            app:popEnterAnim="@anim/from_left"
-            app:popExitAnim="@anim/to_right" />
+            app:enterAnim="@anim/from_right"
+            app:exitAnim="@anim/to_left" />
 
         <argument
             android:name="productId"
