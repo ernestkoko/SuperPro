@@ -1,42 +1,36 @@
 package com.ernestkoko.superpro.screens.newproducts
 
 import android.app.Application
+import android.net.Uri
 import android.util.Log
-import androidx.databinding.Bindable
 import androidx.lifecycle.AndroidViewModel
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
 import com.ernestkoko.superpro.data.Product
 import com.ernestkoko.superpro.data.ProductDatabase
 import com.ernestkoko.superpro.data.ProductRepository
-import com.ernestkoko.superpro.data.ProductsDao
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.launch
-import java.lang.reflect.Array.set
 import java.text.SimpleDateFormat
-import java.time.LocalDate
 import java.util.*
 
 class NewProductViewModel(
     application: Application
 ) : AndroidViewModel(application) {
-    private val dataSource: ProductsDao
+    //get reference to the db dao
+    //private val dataSource: ProductsDao
+    //reference to the repository
     private val repository: ProductRepository
 
     // live data of name
     private var _prodName : String
-//   var prodName: LiveData<String?>
-//    get() = _prodName
-//    set(value) {_prodName = value as MutableLiveData<String?>
-//    }
 
     //setters for the parameters
     fun setName(name: String){
     _prodName = name
-    Log.i("NewPorductName", name )
+    Log.i("NewProductName", name )
 }
 
 
@@ -76,6 +70,11 @@ class NewProductViewModel(
 
 
     init {
+        //get instance of the dao and initialise it
+        val productDao = ProductDatabase.getDataBase(application).productDao()
+        //initialise the repository
+        repository = ProductRepository(productDao)
+        // dataSource = ProductDatabase.getDataBase(getApplication()).productDao()
         _prodName = "Not Set"
         _prodManufacturer = "Not Set"
         _prodQuantity = 1
@@ -89,15 +88,6 @@ class NewProductViewModel(
     private val uiScope = CoroutineScope(Dispatchers.Main + viewModeJob)
 
 
-
-
-    init {
-        val productDao = ProductDatabase.getDataBase(application).productDao()
-        repository = ProductRepository(productDao)
-        dataSource = ProductDatabase.getDataBase(getApplication()).productDao()
-
-    }
-
     private fun insert(product: Product) = viewModelScope.launch(Dispatchers.IO) {
 //
 //        Product(0,_prodName.toString(), prodQuantity.toString().toLong(),
@@ -108,7 +98,7 @@ class NewProductViewModel(
     }
     //called when the submit button is clicked in the fragment layout xml
     fun onInsert(){
-        val expDate = convertIntToTime(_prodExpiryDate!!, _month!!, _year!! )
+        val expDate = convertIntToDate(_prodExpiryDate!!, _month!!, _year!! )
 //        val product = Product(0, _prodName, _prodQuantity.toString().toLong(),
 //        expDate, _prodManufacturer)
 //
@@ -117,7 +107,7 @@ class NewProductViewModel(
         Log.i("NewProdVMInsert", "onInsertFired")
     }
     //convert Long to time
-    private fun convertIntToTime(day: Int, month: Int, year: Int): Date {
+    private fun convertIntToDate(day: Int, month: Int, year: Int): Date {
         var date:Date
         val calendar = Calendar.getInstance()
         calendar.set(year,month,day)
@@ -136,6 +126,12 @@ class NewProductViewModel(
 
         setEditText.value = date
 
+    }
+    // save product image to an external file
+    fun saveImageToExternalFile(uri: Uri?): String{
+
+
+        return ""
     }
 
 }

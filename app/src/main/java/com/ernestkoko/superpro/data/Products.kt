@@ -17,8 +17,8 @@ data class Product(
     @ColumnInfo(name = "products_name")
     var productName: String,
     //product image
-    @ColumnInfo(name = "product_image", typeAffinity = ColumnInfo.BLOB)
-    var productImage: ByteArray? = null,
+    @ColumnInfo(name = "product_image")
+    var productImage: String? = null,
 
     //product quantity
     @ColumnInfo(name = "product_quantity")
@@ -36,35 +36,5 @@ data class Product(
     @ColumnInfo(name = "inventory_date")
     val productInventoryDate: Long = System.currentTimeMillis()
 
-) {
-    override fun equals(other: Any?): Boolean {
-        if (this === other) return true
-        if (javaClass != other?.javaClass) return false
+)
 
-        other as Product
-
-        if (id != other.id) return false
-        if (productName != other.productName) return false
-        if (productImage != null) {
-            if (other.productImage == null) return false
-            if (!productImage!!.contentEquals(other.productImage!!)) return false
-        } else if (other.productImage != null) return false
-        if (productQuantity != other.productQuantity) return false
-        if (productExpiryDate != other.productExpiryDate) return false
-        if (prodManufacturer != other.prodManufacturer) return false
-        if (productInventoryDate != other.productInventoryDate) return false
-
-        return true
-    }
-
-    override fun hashCode(): Int {
-        var result = id.hashCode()
-        result = 31 * result + productName.hashCode()
-        result = 31 * result + (productImage?.contentHashCode() ?: 0)
-        result = 31 * result + productQuantity.hashCode()
-        result = 31 * result + (productExpiryDate?.hashCode() ?: 0)
-        result = 31 * result + (prodManufacturer?.hashCode() ?: 0)
-        result = 31 * result + productInventoryDate.hashCode()
-        return result
-    }
-}

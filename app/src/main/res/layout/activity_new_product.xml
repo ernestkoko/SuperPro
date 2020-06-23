@@ -7,17 +7,16 @@
     android:layout_height="match_parent"
     android:layout_margin="16dp"
     android:orientation="vertical"
+
     tools:context="com.ernestkoko.superpro.screens.newproducts.NewProduct">
 
     <EditText
         android:id="@+id/prod_name_edit"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        style="@style/edit_text_style" />
 
     <EditText
         android:id="@+id/prod_manufacturer_edit"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        style="@style/edit_text_style" />
 
     <Button
         android:id="@+id/submit_product"

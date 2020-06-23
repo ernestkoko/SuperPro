@@ -1,9 +1,14 @@
 package com.ernestkoko.superpro.screens.newproducts
 
+import android.app.Activity
 import android.app.DatePickerDialog
+import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
+import android.graphics.Bitmap
 import android.net.Uri
 import android.os.Bundle
+import android.os.Environment
 import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextWatcher
@@ -15,6 +20,8 @@ import android.view.ViewGroup
 import android.widget.DatePicker
 import android.widget.ImageView
 import android.widget.Toast
+import androidx.core.content.ContextCompat
+import androidx.core.content.FileProvider
 import androidx.core.widget.addTextChangedListener
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
@@ -24,7 +31,10 @@ import com.ernestkoko.superpro.R
 import com.ernestkoko.superpro.data.Product
 import com.ernestkoko.superpro.databinding.FragmentNewProductBinding
 import com.squareup.picasso.Picasso
+import java.io.File
+import java.text.SimpleDateFormat
 import java.util.*
+import java.util.jar.Manifest
 
 /**
  * A simple [Fragment] subclass.
@@ -33,6 +43,15 @@ class NewProductFragment : Fragment() {
     //    private var _binding: FragmentNewProductBinding? = null
 //    private val binding get() = _binding!!
     private lateinit var binding: FragmentNewProductBinding
+
+    //instantiate the view model
+    private lateinit var viewModel: NewProductViewModel
+
+    //photo path
+    private lateinit var currentPhotoPath: String
+    private val SAVE_IMAGE_REQUEST_CODE: Int = 100
+    private val PICK_IMAGE_REQUEST_CODE: Int = 101
+    private val CAMERA_PERMISSION_REQUEST_CODE: Int = 102
 
 
     override fun onCreateView(
@@ -47,7 +66,7 @@ class NewProductFragment : Fragment() {
         //create the viewModel factory
         val viewModelFactory = NewProductViewModelFactory(application)
         //create the viewModel from the factory
-        val viewModel = ViewModelProvider(this, viewModelFactory)
+        viewModel = ViewModelProvider(this, viewModelFactory)
             .get(NewProductViewModel::class.java)
         //tell the fragment about the binding to viewModel on xml
         binding.newProductVieModel = viewModel
@@ -98,12 +117,13 @@ class NewProductFragment : Fragment() {
         //set image
         val image = binding.newProductImage
         image.setOnClickListener {
+            prepToTakePhoto()
             //pick image from phone
-            val intent = Intent()
-            intent.type = "image/*"
-            intent.action = Intent.ACTION_GET_CONTENT
-            startActivityForResult(intent, 1)
-            Log.i("Intent: ", "Image picked")
+//            val intent = Intent()
+//            intent.type = "image/*"
+//            intent.action = Intent.ACTION_GET_CONTENT
+//            startActivityForResult(intent, PICK_IMAGE_REQUEST_CODE)
+//            Log.i("Intent: ", "Image picked")
 
             // Picasso.get().load(R.drawable.ic_checked).into(binding.newProductImage)
         }
@@ -136,12 +156,9 @@ class NewProductFragment : Fragment() {
                         )
                         val format = ("DD/MM/YYYY: ")
                         val day = (dayOfMonth).toString() + "/"
-                        val month1 = (month + 1).toString() +"/"
+                        val month1 = (month + 1).toString() + "/"
 
-
-                        viewModel.setDateToEditText(format + day + month1 + year.toString() )
-
-
+                        viewModel.setDateToEditText(format + day + month1 + year.toString())
                     }
 
                 }, year, month, day
@@ -158,18 +175,131 @@ class NewProductFragment : Fragment() {
         return binding.root
     }
 
+    // called after startActivityFor result is called to get the result
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
+        //check for the request code
+        if (resultCode == Activity.RESULT_OK) {
+            //check if the result is ok
+            if (requestCode == PICK_IMAGE_REQUEST_CODE) {
+                //get the uri of the image
+                var imageUrl: Uri? = data?.data
+                // val imageBitMap = data!!.extras!!.get("data") as Bitmap
+                //display the side indicator to show where the image was got from
+                Picasso.get().setIndicatorsEnabled(true)
+                //load the image selected into the image view
+                Picasso.get().load(imageUrl).fit().centerCrop().into(binding.newProductImage)
+                Toast.makeText(context, "Image Saved!", Toast.LENGTH_LONG).show()
+            } else if (requestCode == SAVE_IMAGE_REQUEST_CODE) {
+                //get the image uri
+                var imageUrl = data!!.data
+                //display the image on the image view
+                Picasso.get().load(imageUrl).fit().into(binding.newProductImage)
+                //tell the user it has been saved
+                Toast.makeText(context, "Image Saved", Toast.LENGTH_LONG).show()
+            }
+        } else {
+            Toast.makeText(context, "Image not gotten!", Toast.LENGTH_LONG).show()
+        }
+    }
 
-       var imageUrl  = data?.data
+    //create a file with a unique time stamp
+    private fun createImageFile(): File {
+        //generates a unique filename with date
+        val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
+        //get access to the directory where we can write pictures
+        val storageDir: File? =
+            requireContext()!!.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
+        //create a file with name, file extension and storage location
+        return File.createTempFile("SuperPro${timeStamp}", ".jpg", storageDir).apply {
+            //this returns the path of the saved file
+            currentPhotoPath = absolutePath
+        }
 
-        if (requestCode == 1) {
-            Toast.makeText(context, "Image gotten!",Toast.LENGTH_LONG).show()
-            //get the image with picasso and display it on the image view
-            Picasso.get().setIndicatorsEnabled(true)
-            Picasso.get().load(imageUrl).fit().centerCrop().into(binding.newProductImage)
+    }
+
+    private fun takePhotoWithCamera() {
+        Intent(MediaStore.ACTION_IMAGE_CAPTURE).also {
+                takePictureIntent -> takePictureIntent.resolveActivity(requireContext()!!.packageManager)
+            if (takePictureIntent == null) {
+                Toast.makeText(context, "Unable to save Photo", Toast.LENGTH_LONG).show()
+
+            } else {
+                //means the intent returns photo
+                val photoFile = createImageFile()
+                photoFile?.also {
+                    val photoURI = FileProvider.getUriForFile(
+                        requireContext()!!,
+                        "com.ernestkoko.superpro.fileprovider", photoFile
+                    )
+                    takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoFile)
+                    startActivityForResult(takePictureIntent, SAVE_IMAGE_REQUEST_CODE)
+                }
+            }
+        }
+    }
+
+    //pick an image from gallery
+    private fun pickImageFromGallery() {
+        //pick image from phone
+        val intent = Intent()
+        intent.type = "image/*"
+        intent.action = Intent.ACTION_PICK
+//        intent.also {
+//            //check if there is place to save the photo
+//                pickImageIntent ->
+//            pickImageIntent.resolveActivity(requireContext()!!.packageManager)
+//            if (pickImageIntent == null) {
+//                //if no place to save the photo
+//                Toast.makeText(context, "Unable to save the photo", Toast.LENGTH_LONG).show()
+//            } else {
+//                val imageFile = createImageFile()
+//                imageFile?.also {
+//                    val imageURI = FileProvider.getUriForFile(
+//                        requireContext()!!,
+//                        "com.ernestkoko.superpro.fileprovider", imageFile
+//                    )
+//                    //save the image to the image file
+//                    pickImageIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageFile)
+//                    startActivityForResult(pickImageIntent, PICK_IMAGE_REQUEST_CODE)
+//                }
+//            }
+//        }
+        startActivityForResult(intent, PICK_IMAGE_REQUEST_CODE)
+
+    }
+
+    //fun prepare to take photo
+    private fun prepToTakePhoto(){
+        //check if permission is granted
+        if(ContextCompat.checkSelfPermission(requireContext(), android.Manifest.permission.CAMERA )
+            == PackageManager.PERMISSION_GRANTED){
+            //if granted, take photo
+            takePhotoWithCamera()
         } else{
-            Toast.makeText(context, "Image not gotten!",Toast.LENGTH_LONG).show()
+            //else ask for permission
+            val permissionRequest = arrayOf(android.Manifest.permission.CAMERA)
+            requestPermissions(permissionRequest, CAMERA_PERMISSION_REQUEST_CODE)
+        }
+    }
+
+    override fun onRequestPermissionsResult(
+        requestCode: Int,
+        permissions: Array<out String>,
+        grantResults: IntArray
+    ) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
+        //check for the request code
+        if (requestCode == CAMERA_PERMISSION_REQUEST_CODE){
+            //CHECK IF PERMISSION GRANTED
+            if (grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults.isNotEmpty()){
+                //permission granted, take photo
+                takePhotoWithCamera()
+            }else{
+                //make a toast to the user that it can not take pic without permission
+                Toast.makeText(requireContext(),
+                    "Unable to take photo without permission", Toast.LENGTH_LONG).show()
+            }
         }
     }
 }

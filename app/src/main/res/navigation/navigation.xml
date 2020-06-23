@@ -8,8 +8,8 @@
     <fragment
         android:id="@+id/productsFragment"
         android:name="com.ernestkoko.superpro.screens.products.ProductsFragment"
-        android:label="fragment_products"
-        tools:layout="@layout/fragment_products" >
+        android:label="@string/products"
+        tools:layout="@layout/fragment_products">
         <action
             android:id="@+id/action_productsFragment_to_newProductFragment"
             app:destination="@id/newProductFragment"
@@ -41,8 +41,8 @@
     <fragment
         android:id="@+id/productDetails"
         android:name="com.ernestkoko.superpro.screens.product_details.ProductDetails"
-        android:label="fragment_product_details"
-        tools:layout="@layout/fragment_product_details" >
+        android:label="@string/product_details"
+        tools:layout="@layout/fragment_product_details">
         <action
             android:id="@+id/action_productDetails_to_productsFragment"
             app:destination="@id/productsFragment"
@@ -51,8 +51,8 @@
             app:popEnterAnim="@anim/from_left"
             app:popExitAnim="@anim/to_right" />
 
-    <argument
-        android:name="productId"
-        app:argType="long"/>
+        <argument
+            android:name="productId"
+            app:argType="long" />
     </fragment>
 </navigation>

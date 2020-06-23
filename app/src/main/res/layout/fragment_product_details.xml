@@ -26,23 +26,23 @@
             android:orientation="vertical"
             android:text="@string/hello_blank_fragment">
 
-            <com.google.android.material.textview.MaterialTextView
+            <TextView
                 android:id="@+id/product_name_text_view"
                 style="@style/text_view_style"
                 android:text=  "@{`Name: `+ `\n` + productDetailsViewModel.product1.productName}"
                 />
 
-            <com.google.android.material.textview.MaterialTextView
+            <TextView
                 android:id="@+id/product_manu_text_view"
                 style="@style/text_view_style"
                 android:text="@{`Manufacturer: `+`\n`+ productDetailsViewModel.product1.prodManufacturer}" />
 
-            <com.google.android.material.textview.MaterialTextView
+            <TextView
                 android:id="@+id/product_supplier_text_view"
                 style="@style/text_view_style"
                 android:text="Supplier" />
 
-            <com.google.android.material.textview.MaterialTextView
+            <TextView
                 android:id="@+id/product_inventory_date"
                 style="@style/text_view_style"
                 android:text="Purchase Date" />

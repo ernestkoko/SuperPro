@@ -46,12 +46,12 @@ class ProductListAdapter(
         //val productName: TextView = itemView.findViewById(R.id.product_name)
 
         //responsible for binding the views
-        fun bind(
-            currentProduct: Product,
-            clickListener: ProductClickListener
-        ) {
+        fun bind(currentProduct: Product, clickListener: ProductClickListener) {
+            //bind the view to the product
             binding.product = currentProduct
+            //set a click listener on the view
             binding.clickListener = clickListener
+            //execute the binding quickly
             binding.executePendingBindings()
         }
 

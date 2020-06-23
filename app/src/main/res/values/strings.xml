@@ -7,4 +7,11 @@
     <string name="product_name">Product Name</string>
     <string name="quantity">Quantity</string>
     <string name="new_product">New Product</string>
+    <string name="products">Products</string>
+    <string name="product_details">Product Details</string>
+    <string name="input_product_name">Input Product Name</string>
+    <string name="input_product_quantity">Input product Quantity</string>
+    <string name="input_product_expiry_date">Input product Expiry date</string>
+    <string name="pick_expiry_date_button">Pick Expiry Date Button</string>
+    <string name="add_new_product_button">Add New Product Button</string>
 </resources>
