@@ -2,11 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.ernestkoko.superpro">
     <!-- permission to use write to external storage disk -->
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
-    <!-- permission to use the internet -->
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <!-- permission to get the network state of the device -->
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" /> <!-- permission to use the internet -->
+    <uses-permission android:name="android.permission.INTERNET" /> <!-- permission to get the network state of the device -->
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <application
         android:allowBackup="true"
@@ -15,24 +13,25 @@
         android:roundIcon="@mipmap/ic_launcher1"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".screens.newproducts.NewProduct"></activity>
-        <activity android:name=".MainActivity">
+        <activity android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <!-- create a provider that is not accessible to other apps -->
+        <activity android:name=".screens.newproducts.NewProduct" />
+        <activity android:name=".MainActivity">
+
+        </activity> <!-- create a provider that is not accessible to other apps -->
         <provider
-            android:authorities="com.ernestkoko.superpro.fileprovider"
             android:name="androidx.core.content.FileProvider"
+            android:authorities="com.ernestkoko.superpro.fileprovider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data
                 android:name="android.support.FILE_PROVIDER_PATHS"
-                android:resource="@xml/file_paths"
-                />
+                android:resource="@xml/file_paths" />
         </provider>
     </application>
 

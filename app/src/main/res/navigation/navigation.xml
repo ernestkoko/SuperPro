@@ -3,47 +3,44 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/navigation"
-    app:startDestination="@id/productsFragment">
+    app:startDestination="@id/products_fragment">
 
     <fragment
-        android:id="@+id/productsFragment"
+        android:id="@+id/products_fragment"
         android:name="com.ernestkoko.superpro.screens.products.ProductsFragment"
         android:label="@string/products"
         tools:layout="@layout/fragment_products">
         <action
             android:id="@+id/action_productsFragment_to_newProductFragment"
-            app:destination="@id/newProductFragment"
-            app:enterAnim="@anim/from_right"
-            app:exitAnim="@anim/to_left"
-            app:popEnterAnim="@anim/from_left"
-            app:popExitAnim="@anim/to_right" />
+            app:destination="@id/new_product_fragment" />
         <action
             android:id="@+id/action_productsFragment_to_productDetails"
-            app:destination="@id/productDetails"
+            app:destination="@id/product_details"
             app:enterAnim="@anim/from_left"
             app:exitAnim="@anim/to_right"
             app:popEnterAnim="@anim/from_right"
             app:popExitAnim="@anim/to_left" />
+        <action
+            android:id="@+id/action_products_fragment_to_expiry_dates"
+            app:destination="@id/expiry_dates" />
     </fragment>
     <fragment
-        android:id="@+id/newProductFragment"
+        android:id="@+id/new_product_fragment"
         android:name="com.ernestkoko.superpro.screens.newproducts.NewProductFragment"
         android:label="@string/new_product"
-        tools:layout="@layout/fragment_new_product" >
+        tools:layout="@layout/fragment_new_product">
         <action
             android:id="@+id/action_newProductFragment_to_productsFragment"
-            app:destination="@id/productsFragment"
-            app:enterAnim="@anim/from_left"
-            app:exitAnim="@anim/to_right" />
+            app:destination="@id/products_fragment" />
     </fragment>
     <fragment
-        android:id="@+id/productDetails"
+        android:id="@+id/product_details"
         android:name="com.ernestkoko.superpro.screens.product_details.ProductDetails"
         android:label="@string/product_details"
         tools:layout="@layout/fragment_product_details">
         <action
             android:id="@+id/action_productDetails_to_productsFragment"
-            app:destination="@id/productsFragment"
+            app:destination="@id/products_fragment"
             app:enterAnim="@anim/from_right"
             app:exitAnim="@anim/to_left" />
 
@@ -51,4 +48,23 @@
             android:name="productId"
             app:argType="long" />
     </fragment>
+    <fragment
+        android:id="@+id/expiry_dates"
+        android:name="com.ernestkoko.superpro.screens.expiry_dates.ExpiryDates"
+        android:label="@string/expiry_dates"
+        tools:layout="@layout/fragment_expiry_dates" >
+        <action
+            android:id="@+id/action_expiry_dates_to_products_fragment"
+            app:destination="@id/products_fragment" />
+    </fragment>
+    <fragment
+        android:id="@+id/homeFragment"
+        android:name="com.ernestkoko.superpro.HomeFragment"
+        android:label="fragment_home"
+        tools:layout="@layout/fragment_home" />
+    <fragment
+        android:id="@+id/settings_fragment"
+        android:name="com.ernestkoko.superpro.screens.setting.SettingsFragment"
+        android:label="@string/settings"
+        tools:layout="@layout/fragment_settings" />
 </navigation>

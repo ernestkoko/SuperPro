@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
@@ -15,6 +16,7 @@ import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
+import androidx.navigation.ui.onNavDestinationSelected
 import androidx.navigation.ui.setupWithNavController
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -23,12 +25,13 @@ import com.ernestkoko.superpro.R
 import com.ernestkoko.superpro.adapter.ProductClickListener
 import com.ernestkoko.superpro.adapter.ProductListAdapter
 import com.ernestkoko.superpro.databinding.FragmentProductsBinding
+import com.google.android.material.navigation.NavigationView
 
 
 /**
  * A simple [Fragment] subclass.
  */
-class ProductsFragment : Fragment() {
+class ProductsFragment  : Fragment()  {
 //   private var _binding: FragmentProductsBinding? = null
 //    private val binding get() = _binding!!
 
@@ -42,9 +45,11 @@ class ProductsFragment : Fragment() {
         //find the navController and set up the tool bar
         val navController = findNavController()
         val drawer = binding.drawerLayout
+
         val appBarConfiguration = AppBarConfiguration(navController.graph, drawer)
        binding.productToolBar
             .setupWithNavController(navController, appBarConfiguration)
+        binding.navView.setupWithNavController(navController)
 
 
         //get the application context. requiredNotNull throws illegal arg exception if it is null
@@ -101,11 +106,16 @@ class ProductsFragment : Fragment() {
        }
 
 
+        //activate the on click listener
+
 
 
         return binding.root
 
     }
+
+
+
 
 
 }

@@ -14,4 +14,10 @@
     <string name="input_product_expiry_date">Input product Expiry date</string>
     <string name="pick_expiry_date_button">Pick Expiry Date Button</string>
     <string name="add_new_product_button">Add New Product Button</string>
+    <string name="expiry_dates">Expiry Dates</string>
+    <string name="controls">Controls</string>
+    <string name="settings">Settings</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+
 </resources>

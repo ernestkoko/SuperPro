@@ -23,77 +23,78 @@
             android:layout_height="?attr/actionBarSize"
             android:background="?attr/colorPrimary"
             android:elevation="4dp"
-            android:theme="@style/ThemeOverlay.MaterialComponents.ActionBar"
-            app:popupTheme="@style/ThemeOverlay.MaterialComponents.Light"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
             app:title="@string/app_name" />
+
+
+
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
 
-        <LinearLayout
-            style="@style/edit_text_style"
-            android:layout_marginStart="@dimen/margin_12dp"
-            android:layout_marginTop="@dimen/margin_24dp"
-            android:layout_marginEnd="@dimen/margin_12dp"
-            android:layout_marginBottom="@dimen/margin_24dp"
-            android:orientation="vertical">
-
-
-
-            <EditText
-                android:id="@+id/product_name_edit"
+            <LinearLayout
                 style="@style/edit_text_style"
-                android:contentDescription="@string/input_product_name"
-                android:hint="@string/product_name"
-                android:inputType="textCapWords" />
+                android:layout_marginStart="@dimen/margin_12dp"
+                android:layout_marginEnd="@dimen/margin_12dp"
+                android:orientation="vertical">
 
-            <EditText
-                android:id="@+id/product_quantity_edit"
-                style="@style/edit_text_style"
-                android:contentDescription="@string/input_product_quantity"
-                android:hint="@string/quantity"
-                android:inputType="number|numberDecimal" />
 
-            <TextView
-                android:id="@+id/product_expiry_date"
-                style="@style/edit_text_style"
-                android:contentDescription="@string/input_product_expiry_date"
-                android:hint="Expiry Date"
-                android:text="@={newProductVieModel.setEditText}" />
+                <EditText
+                    android:id="@+id/product_name_edit"
+                    style="@style/edit_text_style"
+                    android:contentDescription="@string/input_product_name"
+                    android:hint="@string/product_name"
+                    android:inputType="textCapWords" />
 
-            <Button
-                android:id="@+id/button_pick_date"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:contentDescription="@string/pick_expiry_date_button"
-                android:text="Pick Date" />
+                <EditText
+                    android:id="@+id/product_quantity_edit"
+                    style="@style/edit_text_style"
+                    android:contentDescription="@string/input_product_quantity"
+                    android:hint="@string/quantity"
+                    android:inputType="number|numberDecimal" />
 
-            <EditText
-                android:id="@+id/product_manufacturer_edit"
-                style="@style/edit_text_style"
-                android:hint="Manufacturer"
-                android:inputType="text" />
+                <TextView
+                    android:id="@+id/product_expiry_date"
+                    style="@style/edit_text_style"
+                    android:contentDescription="@string/input_product_expiry_date"
+                    android:hint="Expiry Date"
+                    android:text="@={newProductVieModel.setEditText}" />
 
-            <Button
-                android:id="@+id/add_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:contentDescription="@string/add_new_product_button"
-                android:onClick="@{() -> newProductVieModel.onInsert()}"
-                android:text="Add" />
+                <Button
+                    android:id="@+id/button_pick_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@string/pick_expiry_date_button"
+                    android:text="Pick Date" />
 
-            <ImageView
-                android:id="@+id/new_product_image"
-                android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:layout_gravity="center"
-                android:background="@color/colorAccent"
-                android:contentDescription="@string/new_product"
+                <EditText
+                    android:id="@+id/product_manufacturer_edit"
+                    style="@style/edit_text_style"
+                    android:hint="Manufacturer"
+                    android:inputType="text" />
 
-                />
+                <Button
+                    android:id="@+id/add_button"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:contentDescription="@string/add_new_product_button"
+                    android:onClick="@{() -> newProductVieModel.onInsert()}"
+                    android:text="Add" />
 
-        </LinearLayout>
+                <ImageView
+                    android:id="@+id/new_product_image"
+                    android:layout_width="match_parent"
+                    android:layout_height="200dp"
+                    android:layout_gravity="center"
+                    android:background="@color/colorAccent"
+                    android:contentDescription="@string/new_product"
+
+                    />
+
+            </LinearLayout>
         </ScrollView>
 
 
