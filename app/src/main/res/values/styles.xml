@@ -27,4 +27,59 @@
         <item name="android:layout_height">match_parent</item>
     </style>
 
+    <style name="welcome_message_style">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textColor">@color/colorAccent</item>
+        <item name="android:textStyle">italic</item>
+    </style>
+
+    <style name="TextInputEditTextStyle" >
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">match_parent</item>
+    </style>
+
+    <style name="ButtonStyle">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">50dp</item>
+    </style>
+
+    <style name="Login_TextView_Style">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginTop">28dp</item>
+        <item name="android:textColor">@color/colorAccent</item>
+        <item name="android:textStyle">italic</item>
+    </style>
+
+    <style name="TextInputStyle" parent="MaterialAlertDialog.MaterialComponents.Title.Text">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">16dp</item>
+        <item name="android:layout_marginTop">20dp</item>
+        <item name="android:layout_marginEnd">16dp</item>
+        <item name="android:inputType">textEmailAddress</item>
+    </style>
+
+    <style name="text_input_edit">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+    </style>
+
+    <style name="EditTextLayoutStyle">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_marginTop">@dimen/margin_12dp</item>
+        <item name="android:layout_height">match_parent</item>
+    </style>
+
+    <style name="Upper_layout_editText">
+        <item name="android:layout_width">0dp</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_marginStart">@dimen/margin_24dp</item>
+        <item name="android:layout_marginTop">@dimen/ten_dp_dim</item>
+        <item name="android:layout_marginEnd">@dimen/margin_24dp</item>
+    </style>
+
+
 </resources>

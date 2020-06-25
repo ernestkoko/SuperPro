@@ -5,6 +5,9 @@
     android:id="@+id/navigation"
     app:startDestination="@id/products_fragment">
 
+    <!-- Global action -->
+    <action android:id="@+id/action_global_products_fragment" app:destination="@id/products_fragment" />
+
     <fragment
         android:id="@+id/products_fragment"
         android:name="com.ernestkoko.superpro.screens.products.ProductsFragment"
@@ -89,7 +92,9 @@
                 android:id="@+id/action_loginFragment_to_loginResetFragment"
                 app:destination="@id/loginResetFragment" />
         </fragment>
+        <action
+            android:id="@+id/action_global_products_fragment2"
+            app:destination="@id/products_fragment" />
     </navigation>
-    <!-- Global action -->
-    <action android:id="@+id/action_global_products_fragment" app:destination="@id/products_fragment" />
+
 </navigation>

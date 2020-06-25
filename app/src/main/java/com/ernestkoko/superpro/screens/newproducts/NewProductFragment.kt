@@ -164,11 +164,11 @@ class NewProductFragment : Fragment() {
                             dayOfMonth,
                             month, year
                         )
-                        val format = ("DD/MM/YYYY: ")
+
                         val day = (dayOfMonth).toString() + "/"
                         val month1 = (month + 1).toString() + "/"
 
-                        viewModel.setDateToEditText(format + day + month1 + year.toString())
+                        viewModel.setDateToEditText( day + month1 + year.toString())
                     }
 
                 }, year, month, day

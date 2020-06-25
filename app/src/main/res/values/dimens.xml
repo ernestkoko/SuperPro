@@ -2,4 +2,6 @@
 <resources>
     <dimen name="margin_12dp">12dp</dimen>
     <dimen name="margin_24dp">24dp</dimen>
+    <dimen name="ten_dp_dim">10dp</dimen>
+    <dimen name="dp_16_dim">16dp</dimen>
 </resources>

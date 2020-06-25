@@ -17,6 +17,7 @@
         android:layout_height="match_parent"
         android:orientation="vertical"
         tools:context=".screens.newproducts.NewProductFragment">
+
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/product_tool_bar"
             android:layout_width="match_parent"
@@ -29,72 +30,109 @@
             app:title="@string/app_name" />
 
 
-
         <ScrollView
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
 
-            <LinearLayout
-                style="@style/edit_text_style"
-                android:layout_marginStart="@dimen/margin_12dp"
-                android:layout_marginEnd="@dimen/margin_12dp"
-                android:orientation="vertical">
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/Upper_layout_editText"
+
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/EditTextLayoutStyle">
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/product_name_edit"
+                        style="@style/edit_text_style"
+                        android:contentDescription="@string/input_product_name"
+                        android:hint="@string/product_name"
+                        android:inputType="textCapWords" />
+                </com.google.android.material.textfield.TextInputLayout>
+                    <com.google.android.material.textfield.TextInputLayout
+                       style="@style/EditTextLayoutStyle">
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/product_quantity_edit"
+                            style="@style/edit_text_style"
+                            android:contentDescription="@string/input_product_quantity"
+                            android:hint="@string/quantity"
+                            android:inputType="number|numberDecimal" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/EditTextLayoutStyle">
+                        <com.google.android.material.textfield.TextInputEditText
+                            android:id="@+id/product_expiry_date"
+                            style="@style/edit_text_style"
+                            android:contentDescription="@string/input_product_expiry_date"
+                            android:hint="Expiry Date(DD/MM/YYYY)"
+                            android:text="@={newProductVieModel.setEditText}" />
 
 
-                <EditText
-                    android:id="@+id/product_name_edit"
-                    style="@style/edit_text_style"
-                    android:contentDescription="@string/input_product_name"
-                    android:hint="@string/product_name"
-                    android:inputType="textCapWords" />
+                    </com.google.android.material.textfield.TextInputLayout>
 
-                <EditText
-                    android:id="@+id/product_quantity_edit"
-                    style="@style/edit_text_style"
-                    android:contentDescription="@string/input_product_quantity"
-                    android:hint="@string/quantity"
-                    android:inputType="number|numberDecimal" />
+                    <com.google.android.material.textfield.TextInputLayout
+                        style="@style/EditTextLayoutStyle">
+                        <Button
+                            android:id="@+id/button_pick_date"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:contentDescription="@string/pick_expiry_date_button"
+                            android:text="Pick Date" />
 
-                <TextView
-                    android:id="@+id/product_expiry_date"
-                    style="@style/edit_text_style"
-                    android:contentDescription="@string/input_product_expiry_date"
-                    android:hint="Expiry Date"
-                    android:text="@={newProductVieModel.setEditText}" />
+                    </com.google.android.material.textfield.TextInputLayout>
+                    <com.google.android.material.textfield.TextInputLayout
+                       style="@style/EditTextLayoutStyle">
+                        <EditText
+                            android:id="@+id/product_manufacturer_edit"
+                            style="@style/edit_text_style"
+                            android:hint="Manufacturer"
+                            android:inputType="text" />
 
-                <Button
-                    android:id="@+id/button_pick_date"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:contentDescription="@string/pick_expiry_date_button"
-                    android:text="Pick Date" />
+                    </com.google.android.material.textfield.TextInputLayout>
+                    <com.google.android.material.textfield.TextInputLayout
+                       style="@style/EditTextLayoutStyle">
+                        <Button
+                            android:id="@+id/add_button"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:contentDescription="@string/add_new_product_button"
+                            android:onClick="@{() -> newProductVieModel.onInsert()}"
+                            android:text="Add" />
 
-                <EditText
-                    android:id="@+id/product_manufacturer_edit"
-                    style="@style/edit_text_style"
-                    android:hint="Manufacturer"
-                    android:inputType="text" />
+                        <ImageView
+                            android:id="@+id/new_product_image"
+                            android:layout_width="match_parent"
+                            android:layout_height="200dp"
+                            android:layout_gravity="center"
+                            android:background="@color/colorAccent"
+                            android:contentDescription="@string/new_product"
 
-                <Button
-                    android:id="@+id/add_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:contentDescription="@string/add_new_product_button"
-                    android:onClick="@{() -> newProductVieModel.onInsert()}"
-                    android:text="Add" />
+                            />
 
-                <ImageView
-                    android:id="@+id/new_product_image"
-                    android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    android:layout_gravity="center"
-                    android:background="@color/colorAccent"
-                    android:contentDescription="@string/new_product"
+                    </com.google.android.material.textfield.TextInputLayout>
 
-                    />
 
-            </LinearLayout>
+                </com.google.android.material.textfield.TextInputLayout>
+
+
+
+
+
+
+
+
+
+
+
+
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>
 
 
