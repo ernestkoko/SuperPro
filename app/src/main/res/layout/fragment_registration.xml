@@ -1,89 +1,122 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout>
+
     <data>
+
+        <variable
+            name="regViewModel"
+            type="com.ernestkoko.superpro.screens.login.longin_registration.RegistrationViewModel" />
 
     </data>
 
 
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context=".screens.login.longin_registration.RegistrationFragment">
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context=".screens.login.longin_registration.RegistrationFragment">
 
-<androidx.constraintlayout.widget.ConstraintLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/upper_text_input_layout"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        style="@style/Upper_layout_editText">
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/company_name_edit"
-            style="@style/text_input_edit"
-            android:inputType="text|number"
-            android:text="@string/company_name" />
-
-        <com.google.android.material.textfield.TextInputLayout
-            style="@style/EditTextLayoutStyle">
-
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/company_email_edit"
-                android:text="@string/email"
-
-                android:inputType="textEmailAddress"
-                style="@style/text_input_edit" />
             <com.google.android.material.textfield.TextInputLayout
-               style="@style/EditTextLayoutStyle">
-                <com.google.android.material.textfield.TextInputEditText
-                    android:id="@+id/company_phoneNumber_edit"
-                    android:inputType="phone|number"
-                    android:text="@string/phone_number"
-                   style="@style/text_input_edit"/>
+                android:id="@+id/upper_text_input_layout"
+                style="@style/Upper_layout_editText"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/EditTextLayoutStyle"
+                    android:hint="@string/company_name">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/company_name_edit"
+                        style="@style/text_input_edit"
+                        android:inputType="text" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/EditTextLayoutStyle"
+                    android:hint="@string/email">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/company_email_edit"
+                        style="@style/text_input_edit"
+                        android:inputType="textEmailAddress"
+
+                        android:text="@={regViewModel._email}" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/EditTextLayoutStyle"
+                    android:hint="@string/phone_number">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/company_phoneNumber_edit"
+                        style="@style/text_input_edit"
+                        android:inputType="phone" />
+
+                    <ProgressBar
+                        android:id="@+id/progress_bar"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_gravity="center"
+                        android:layout_margin="@dimen/margin_24dp"
+                        android:visibility="gone" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/EditTextLayoutStyle"
+                    android:hint="@string/password">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/company_password_edit1"
+                        style="@style/text_input_edit"
+                        android:inputType="textPassword"
+                        android:text="@={regViewModel._password}" />
+
+
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/EditTextLayoutStyle"
+                    android:hint="@string/password">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/company_password_edit2"
+                        style="@style/text_input_edit"
+                        android:inputType="textPassword"
+                        android:text="@={regViewModel._password2}" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/EditTextLayoutStyle"
+                    android:hint="@string/address">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/company_address_edit"
+                        style="@style/text_input_edit"
+                        android:inputType="text|textCapWords" />
+                </com.google.android.material.textfield.TextInputLayout>
             </com.google.android.material.textfield.TextInputLayout>
-        </com.google.android.material.textfield.TextInputLayout>
-        <com.google.android.material.textfield.TextInputLayout
-            style="@style/EditTextLayoutStyle">
-            <com.google.android.material.textfield.TextInputEditText
-                style="@style/text_input_edit"
-                android:id="@+id/company_password_edit1"
-                android:text="@string/password"
-                android:inputType="textPassword"/>
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/registration_button"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="@dimen/margin_24dp"
+                android:onClick="@{() -> regViewModel.registerNewUser()}"
+                android:text="Register"
+                android:textAllCaps="false"
+                app:layout_constraintEnd_toEndOf="@+id/upper_text_input_layout"
+                app:layout_constraintStart_toStartOf="@+id/upper_text_input_layout"
+                app:layout_constraintTop_toBottomOf="@+id/upper_text_input_layout" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
 
-        </com.google.android.material.textfield.TextInputLayout>
-    <com.google.android.material.textfield.TextInputLayout
-        style="@style/EditTextLayoutStyle">
-        <com.google.android.material.textfield.TextInputEditText
-            style="@style/text_input_edit"
-            android:id="@+id/company_password_edit2"
-            android:text="@string/password"
-            android:inputType="textPassword"/>
-    </com.google.android.material.textfield.TextInputLayout>
-        <com.google.android.material.textfield.TextInputLayout
-            style="@style/EditTextLayoutStyle">
-            <com.google.android.material.textfield.TextInputEditText
-                style="@style/text_input_edit"
-                android:id="@+id/company_address_edit"
-                android:text="@string/address"
-                android:inputType="text|number|textCapWords"/>
-        </com.google.android.material.textfield.TextInputLayout>
-    </com.google.android.material.textfield.TextInputLayout>
-    <com.google.android.material.button.MaterialButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAllCaps="false"
-        android:layout_marginTop="@dimen/margin_24dp"
-        app:layout_constraintTop_toBottomOf="@+id/upper_text_input_layout"
-        app:layout_constraintStart_toStartOf="@+id/upper_text_input_layout"
-        app:layout_constraintEnd_toEndOf="@+id/upper_text_input_layout"
-        android:text="Register"/>
-</androidx.constraintlayout.widget.ConstraintLayout>
-
-
-</ScrollView>
+    </ScrollView>
 </layout>

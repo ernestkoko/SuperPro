@@ -1,11 +1,16 @@
 package com.ernestkoko.superpro.screens.login.longin_registration
 
+import android.app.AlertDialog
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.ProgressBar
+import android.widget.Toast
 import androidx.databinding.DataBindingUtil
+import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.ernestkoko.superpro.R
 import com.ernestkoko.superpro.databinding.FragmentRegistrationBinding
@@ -14,23 +19,90 @@ import com.ernestkoko.superpro.databinding.FragmentRegistrationBinding
  * A simple [Fragment] subclass.
  */
 class RegistrationFragment : Fragment() {
+    private lateinit var mBinding: FragmentRegistrationBinding
+    private lateinit var mProgressBar: ProgressBar
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        val binding: FragmentRegistrationBinding =
-            DataBindingUtil.inflate(inflater,R.layout.fragment_registration,container, false)
+        mBinding =
+            DataBindingUtil.inflate(inflater, R.layout.fragment_registration, container, false)
+        //set the life cycle owner
+        mBinding.setLifecycleOwner(this)
         //get the application context
         val application = requireNotNull(this.activity).application
         //instantiate the viewModel factory
         val viewModelFactory = RegistrationViewModelFactory(application)
         //instantiate the viewModel
         val viewModel =
-            ViewModelProvider(this,viewModelFactory).get(RegistrationViewModel::class.java)
+            ViewModelProvider(this, viewModelFactory).get(RegistrationViewModel::class.java)
 
-        return binding.root
+        //connect the viewModel to binding class
+        mBinding.regViewModel = viewModel
+
+        //observe if any of the fields is empty
+        viewModel.isFieldEmpty.observe(viewLifecycleOwner, Observer { fieldIsEmpty ->
+            if (fieldIsEmpty) {
+                //alert the user to fill out all the fields
+                Toast.makeText(application, "Please fill all the fields", Toast.LENGTH_LONG).show()
+            }
+        })
+        //observe if the email is valid
+        viewModel.validEmail.observe(viewLifecycleOwner, Observer { isEmailValid ->
+            if (!isEmailValid) {
+                //if email is not valid, tell the user to enter a valid email
+                Toast.makeText(application, "Please enter a valid email", Toast.LENGTH_LONG).show()
+            }
+        })
+        //observe if the passwords match
+        viewModel.arePasswordsMatch.observe(viewLifecycleOwner, Observer { passwordsAreMacth ->
+            if (!passwordsAreMacth) {
+                //alert the user that the passwords are not match
+                Toast.makeText(
+                    application,
+                    "The Passwords you entered do not match",
+                    Toast.LENGTH_LONG
+                ).show()
+            }
+        })
+//        val inflater1 = requireContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
+//        mBinding.
+//
+//        //the progress bar
+//        val builder = AlertDialog.Builder(requireContext())
+
+
+        //listen for when the reg is complete or not so we can show the progress bar
+        viewModel.isRegComplete.observe(viewLifecycleOwner, Observer { isRegComplete ->
+            if (!isRegComplete) {
+                //initialise the progress bar
+                mProgressBar = mBinding.progressBar
+                //set the progress bar to be visible
+                mProgressBar.visibility = View.VISIBLE
+
+
+            } else {
+                //hide the progress bar
+                mProgressBar.visibility = View.GONE
+            }
+        })
+        //listen for when the registration was successful or failed
+        viewModel.isRegSuccessful.observe(viewLifecycleOwner, Observer { regIsSuccessful ->
+            if (regIsSuccessful) {
+                //if register is successful toast a message
+                Toast.makeText(application, "Registration was successful!", Toast.LENGTH_LONG)
+                    .show()
+            } else {
+                //alert the user that the registration failed
+                Toast.makeText(application, "Registration failed!", Toast.LENGTH_LONG).show()
+            }
+        })
+
+
+
+        return mBinding.root
     }
 
 }

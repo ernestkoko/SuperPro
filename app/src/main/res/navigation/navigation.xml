@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/navigation"
-    app:startDestination="@id/products_fragment">
+    app:startDestination="@id/registrationFragment">
 
     <!-- Global action -->
     <action android:id="@+id/action_global_products_fragment" app:destination="@id/products_fragment" />
@@ -26,9 +26,7 @@
         <action
             android:id="@+id/action_products_fragment_to_expiry_dates"
             app:destination="@id/expiry_dates" />
-        <action
-            android:id="@+id/action_products_fragment_to_navigation2"
-            app:destination="@id/navigation2" />
+
         <action
             android:id="@+id/action_products_fragment_to_settings_fragment"
             app:destination="@id/settings_fragment" />
@@ -58,10 +56,11 @@
         android:name="com.ernestkoko.superpro.screens.setting.SettingsFragment"
         android:label="@string/settings"
         tools:layout="@layout/fragment_settings" />
-    <!-- Nested Graph -->
+    <!-- Nested Graph
     <navigation
         android:id="@+id/navigation2"
         app:startDestination="@id/loginResetFragment" >
+        -->
         <fragment
             android:id="@+id/loginResetFragment"
             android:name="com.ernestkoko.superpro.screens.login.login_reset.LoginResetFragment"
@@ -95,6 +94,6 @@
         <action
             android:id="@+id/action_global_products_fragment2"
             app:destination="@id/products_fragment" />
-    </navigation>
+   <!-- </navigation> -->
 
 </navigation>

@@ -46,52 +46,51 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
                 <com.google.android.material.textfield.TextInputLayout
-                    style="@style/EditTextLayoutStyle">
+                    style="@style/EditTextLayoutStyle"
+                    android:hint="@string/product_name"
+                    >
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/product_name_edit"
                         style="@style/edit_text_style"
                         android:contentDescription="@string/input_product_name"
-                        android:hint="@string/product_name"
+
                         android:inputType="textCapWords" />
                 </com.google.android.material.textfield.TextInputLayout>
                     <com.google.android.material.textfield.TextInputLayout
-                       style="@style/EditTextLayoutStyle">
+                       style="@style/EditTextLayoutStyle"
+                        android:hint="@string/quantity">
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/product_quantity_edit"
                             style="@style/edit_text_style"
                             android:contentDescription="@string/input_product_quantity"
-                            android:hint="@string/quantity"
+
                             android:inputType="number|numberDecimal" />
 
                     </com.google.android.material.textfield.TextInputLayout>
                     <com.google.android.material.textfield.TextInputLayout
-                        style="@style/EditTextLayoutStyle">
+                        style="@style/EditTextLayoutStyle"
+                        android:hint="@string/expiry_date_dd_mm_yyyy">
                         <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/product_expiry_date"
                             style="@style/edit_text_style"
                             android:contentDescription="@string/input_product_expiry_date"
-                            android:hint="Expiry Date(DD/MM/YYYY)"
+
                             android:text="@={newProductVieModel.setEditText}" />
 
 
                     </com.google.android.material.textfield.TextInputLayout>
-
-                    <com.google.android.material.textfield.TextInputLayout
-                        style="@style/EditTextLayoutStyle">
-                        <Button
+                        <com.google.android.material.button.MaterialButton
                             android:id="@+id/button_pick_date"
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:contentDescription="@string/pick_expiry_date_button"
                             android:text="Pick Date" />
-
-                    </com.google.android.material.textfield.TextInputLayout>
                     <com.google.android.material.textfield.TextInputLayout
-                       style="@style/EditTextLayoutStyle">
-                        <EditText
+                       style="@style/EditTextLayoutStyle"
+                        android:hint="@string/manufacturer">
+                        <com.google.android.material.textfield.TextInputEditText
                             android:id="@+id/product_manufacturer_edit"
                             style="@style/edit_text_style"
-                            android:hint="Manufacturer"
                             android:inputType="text" />
 
                     </com.google.android.material.textfield.TextInputLayout>
