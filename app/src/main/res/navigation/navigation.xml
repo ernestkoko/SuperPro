@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/navigation"
-    app:startDestination="@id/registrationFragment">
+    app:startDestination="@id/loginFragment">
 
     <!-- Global action -->
     <action android:id="@+id/action_global_products_fragment" app:destination="@id/products_fragment" />

@@ -34,8 +34,9 @@
 
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/company_name_edit"
+                        android:contentDescription="@string/enter_company_name"
                         style="@style/text_input_edit"
-                        android:inputType="text" />
+                        android:inputType="text|textCapWords" />
                 </com.google.android.material.textfield.TextInputLayout>
 
 
@@ -66,6 +67,7 @@
                         android:layout_height="50dp"
                         android:layout_gravity="center"
                         android:layout_margin="@dimen/margin_24dp"
+                        android:indeterminate="true"
                         android:visibility="gone" />
                 </com.google.android.material.textfield.TextInputLayout>
 
@@ -100,21 +102,36 @@
                     <com.google.android.material.textfield.TextInputEditText
                         android:id="@+id/company_address_edit"
                         style="@style/text_input_edit"
-                        android:inputType="text|textCapWords" />
+                        android:inputType="text|textCapWords|textMultiLine" />
                 </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/EditTextLayoutStyle"
+                    android:hint="@string/region_state">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/company_region_state"
+                        style="@style/text_input_edit"
+                        android:inputType="textCapWords" />
+                </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.textfield.TextInputLayout
+                    style="@style/EditTextLayoutStyle"
+                    android:hint="@string/country">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/company_country"
+                        style="@style/text_input_edit"
+                        android:inputType="textCapWords" />
+                </com.google.android.material.textfield.TextInputLayout>
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/registration_button"
+                    style="@style/ButtonStyle"
+                    android:layout_marginTop="13dp"
+                    android:contentDescription="@string/new_user_register_button"
+                    android:onClick="@{() -> regViewModel.registerNewUser()}"
+                    android:text="@string/register" />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/registration_button"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/margin_24dp"
-                android:onClick="@{() -> regViewModel.registerNewUser()}"
-                android:text="Register"
-                android:textAllCaps="false"
-                app:layout_constraintEnd_toEndOf="@+id/upper_text_input_layout"
-                app:layout_constraintStart_toStartOf="@+id/upper_text_input_layout"
-                app:layout_constraintTop_toBottomOf="@+id/upper_text_input_layout" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
 

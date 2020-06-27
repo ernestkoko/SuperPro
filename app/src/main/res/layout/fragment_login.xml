@@ -2,111 +2,110 @@
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
+
     <data>
+
+        <variable
+            name="logInViewModel"
+            type="com.ernestkoko.superpro.screens.login.LoginViewModel" />
 
     </data>
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-<androidx.constraintlayout.widget.ConstraintLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/welcome_message"
-        style="@style/welcome_message_style"
-        android:layout_marginTop="@dimen/dp_16_dim"
-        android:contentDescription="@string/welcome_message"
-        android:text="@string/you_are_welcome"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/sign_in_email_layout"
-        android:hint="@string/email"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.426"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/welcome_message"
-        style="@style/TextInputStyle">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/sign_in_edit_email"
-            style="@style/TextInputEditTextStyle"
-            android:contentDescription="@string/enter_your_email_for_registration" />
-    </com.google.android.material.textfield.TextInputLayout>
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/sign_in_password_layout"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        app:layout_constraintEnd_toEndOf="@+id/sign_in_email_layout"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/sign_in_email_layout"
-        app:layout_constraintTop_toBottomOf="@+id/sign_in_email_layout">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/sign_in_edit_password"
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:contentDescription="@string/enter_your_password_for_regisration"
-            android:hint="@string/password"
-            android:inputType="text|textPassword" />
-    </com.google.android.material.textfield.TextInputLayout>
+            android:layout_height="match_parent">
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/sign_in_button"
-        style="@style/ButtonStyle"
-        android:contentDescription="@string/sign_in_button"
-        android:text="@string/sign_in"
-        app:layout_constraintEnd_toEndOf="@+id/sign_in_password_layout"
-        app:layout_constraintStart_toStartOf="@+id/sign_in_password_layout"
-        app:layout_constraintTop_toBottomOf="@+id/sign_in_password_layout" />
+            <com.google.android.material.textview.MaterialTextView
+                android:id="@+id/welcome_message"
+                style="@style/welcome_message_style"
+                android:layout_marginTop="@dimen/dp_16_dim"
+                android:contentDescription="@string/welcome_message"
+                android:text="@string/you_are_welcome"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/register_message_id"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:contentDescription="@string/you_don_t_have_an_account"
-        android:text="@string/you_don_t_have_an_account"
-        android:textColor="@color/colorAccent"
-        android:textStyle="italic"
-        app:layout_constraintEnd_toEndOf="@+id/sign_in_button"
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/Upper_layout_editText"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/welcome_message">
 
-        app:layout_constraintStart_toStartOf="@+id/sign_in_button"
-        app:layout_constraintTop_toBottomOf="@+id/sign_in_button" />
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/sign_in_email_layout"
+                    style="@style/EditTextLayoutStyle"
+                    android:hint="@string/email">
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/register_button"
-        style="@style/ButtonStyle"
-        android:layout_marginTop="@dimen/ten_dp_dim"
-        android:contentDescription="@string/register_button"
-        android:text="@string/register"
-        android:textAllCaps="false"
-        app:layout_constraintEnd_toEndOf="@+id/register_message_id"
-        app:layout_constraintStart_toStartOf="@+id/register_message_id"
-        app:layout_constraintTop_toBottomOf="@+id/register_message_id" />
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/sign_in_edit_email"
+                        style="@style/text_input_edit"
+                        android:contentDescription="@string/enter_your_email_for_registration"
+                        android:inputType="textEmailAddress"
+                        android:text="@={logInViewModel.MEmail}" />
+                </com.google.android.material.textfield.TextInputLayout>
 
-    <com.google.android.material.textview.MaterialTextView
-        android:id="@+id/forgot_password"
-        style="@style/Login_TextView_Style"
-        android:contentDescription="@string/forgot_password"
-        android:text="@string/forgot_password"
-        app:layout_constraintEnd_toEndOf="@+id/register_button"
-        app:layout_constraintStart_toStartOf="@+id/register_button"
-        app:layout_constraintTop_toBottomOf="@+id/register_button" />
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/sign_in_password_layout"
+                    style="@style/EditTextLayoutStyle"
+                    android:hint="@string/password">
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/reset_password_button"
-        style="@style/ButtonStyle"
-        android:layout_marginTop="@dimen/ten_dp_dim"
-        android:contentDescription="@string/reset_button"
-        android:text="@string/reset"
-        android:textAllCaps="false"
-        app:layout_constraintEnd_toEndOf="@+id/forgot_password"
-        app:layout_constraintStart_toStartOf="@+id/forgot_password"
-        app:layout_constraintTop_toBottomOf="@+id/forgot_password" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/sign_in_edit_password"
+                        style="@style/text_input_edit"
+                        android:contentDescription="@string/enter_your_password_for_regisration"
+                        android:inputType="text|textPassword"
+                        android:text="@={logInViewModel.MPassword}" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/sign_in_button"
+                    style="@style/ButtonStyle"
+                    android:contentDescription="@string/sign_in_button"
+                    android:onClick="@{() -> logInViewModel.signInMethod()}"
+                    android:text="@string/sign_in" />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/register_message_id"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="20dp"
+                    android:contentDescription="@string/you_don_t_have_an_account"
+                    android:text="@string/you_don_t_have_an_account"
+                    android:textColor="@color/colorAccent"
+                    android:textStyle="italic" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/register_button"
+                    style="@style/ButtonStyle"
+                    android:layout_marginTop="@dimen/ten_dp_dim"
+                    android:contentDescription="@string/new_user_register_button"
+                    android:text="@string/register"
+
+                    />
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/forgot_password"
+
+                    style="@style/Login_TextView_Style"
+                    android:layout_gravity="center"
+                    android:contentDescription="@string/forgot_password"
+                    android:text="@string/forgot_password" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/reset_password_button"
+                    style="@style/ButtonStyle"
+                    android:layout_marginTop="@dimen/ten_dp_dim"
+                    android:contentDescription="@string/password_reset_button"
+                    android:text="@string/reset"
+
+                    />
+            </com.google.android.material.textfield.TextInputLayout>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+    </ScrollView>
 </layout>

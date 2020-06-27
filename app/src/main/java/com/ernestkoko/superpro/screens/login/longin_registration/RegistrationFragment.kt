@@ -1,5 +1,6 @@
 package com.ernestkoko.superpro.screens.login.longin_registration
 
+import android.app.Activity
 import android.app.AlertDialog
 import android.content.Context
 import android.os.Bundle
@@ -7,11 +8,14 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.ProgressBar
 import android.widget.Toast
+import androidx.core.content.getSystemService
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
+import androidx.navigation.fragment.findNavController
 import com.ernestkoko.superpro.R
 import com.ernestkoko.superpro.databinding.FragmentRegistrationBinding
 
@@ -46,14 +50,14 @@ class RegistrationFragment : Fragment() {
         viewModel.isFieldEmpty.observe(viewLifecycleOwner, Observer { fieldIsEmpty ->
             if (fieldIsEmpty) {
                 //alert the user to fill out all the fields
-                Toast.makeText(application, "Please fill all the fields", Toast.LENGTH_LONG).show()
+                Toast.makeText(application, getString(R.string.fill_all_fields_meesage), Toast.LENGTH_LONG).show()
             }
         })
         //observe if the email is valid
         viewModel.validEmail.observe(viewLifecycleOwner, Observer { isEmailValid ->
             if (!isEmailValid) {
                 //if email is not valid, tell the user to enter a valid email
-                Toast.makeText(application, "Please enter a valid email", Toast.LENGTH_LONG).show()
+                Toast.makeText(application, getString(R.string.enter_valid_email_message), Toast.LENGTH_LONG).show()
             }
         })
         //observe if the passwords match
@@ -62,7 +66,7 @@ class RegistrationFragment : Fragment() {
                 //alert the user that the passwords are not match
                 Toast.makeText(
                     application,
-                    "The Passwords you entered do not match",
+                    getString(R.string.password_not_match_message),
                     Toast.LENGTH_LONG
                 ).show()
             }
@@ -79,30 +83,59 @@ class RegistrationFragment : Fragment() {
             if (!isRegComplete) {
                 //initialise the progress bar
                 mProgressBar = mBinding.progressBar
+
                 //set the progress bar to be visible
-                mProgressBar.visibility = View.VISIBLE
+                hideOtherViews()
 
 
             } else {
                 //hide the progress bar
-                mProgressBar.visibility = View.GONE
+                showOtherViews()
             }
         })
         //listen for when the registration was successful or failed
         viewModel.isRegSuccessful.observe(viewLifecycleOwner, Observer { regIsSuccessful ->
             if (regIsSuccessful) {
                 //if register is successful toast a message
-                Toast.makeText(application, "Registration was successful!", Toast.LENGTH_LONG)
+                Toast.makeText(application, getString(R.string.registration_successful_message), Toast.LENGTH_LONG)
                     .show()
+                //navigate the user to the login fragment
+                this.findNavController().navigate(R.id.action_registrationFragment_to_loginFragment)
+
             } else {
                 //alert the user that the registration failed
-                Toast.makeText(application, "Registration failed!", Toast.LENGTH_LONG).show()
+                Toast.makeText(application, getString(R.string.registration_failed_meesage), Toast.LENGTH_LONG).show()
             }
         })
 
 
 
         return mBinding.root
+    }
+
+    private fun hideOtherViews(){
+        //hide all other views apart from progress bar
+        mBinding.progressBar.visibility = View.VISIBLE
+        mBinding.companyNameEdit.visibility = View.INVISIBLE
+        mBinding.companyEmailEdit.visibility = View.INVISIBLE
+        mBinding.companyPhoneNumberEdit.visibility = View.INVISIBLE
+        mBinding.companyAddressEdit.visibility = View.INVISIBLE
+        mBinding.companyPasswordEdit1.visibility = View.INVISIBLE
+        mBinding.companyPasswordEdit2.visibility = View.INVISIBLE
+        mBinding.registrationButton.visibility = View.INVISIBLE
+    }
+    private fun showOtherViews(){
+        //show all other views and set the progress bar to GONE so it does not take space while
+        //invisible
+        mBinding.progressBar.visibility = View.GONE
+        mBinding.companyNameEdit.visibility = View.VISIBLE
+        mBinding.companyEmailEdit.visibility = View.VISIBLE
+        mBinding.companyPhoneNumberEdit.visibility = View.VISIBLE
+        mBinding.companyAddressEdit.visibility = View.VISIBLE
+        mBinding.companyPasswordEdit1.visibility = View.VISIBLE
+        mBinding.companyPasswordEdit2.visibility = View.VISIBLE
+        mBinding.registrationButton.visibility = View.VISIBLE
+
     }
 
 }

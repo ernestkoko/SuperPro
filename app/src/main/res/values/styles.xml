@@ -11,8 +11,7 @@
         <item name="android:datePickerStyle">@style/MyDatePicker</item>
     </style>
 
-    <style name="MyDatePicker" parent="android:Widget.Material.Light.DatePicker">
-    </style>
+    <style name="MyDatePicker" parent="android:Widget.Material.Light.DatePicker"></style>
 
     <style name="text_view_style">
         <item name="android:layout_marginBottom">8dp</item>
@@ -34,7 +33,7 @@
         <item name="android:textStyle">italic</item>
     </style>
 
-    <style name="TextInputEditTextStyle" >
+    <style name="TextInputEditTextStyle">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">match_parent</item>
     </style>
@@ -42,7 +41,9 @@
     <style name="ButtonStyle">
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_gravity">center</item>
         <item name="android:layout_marginTop">50dp</item>
+        <item name="textAllCaps">false</item>
     </style>
 
     <style name="Login_TextView_Style">
@@ -65,9 +66,13 @@
     <style name="text_input_edit">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:textSize">24sp</item>
+
     </style>
 
-    <style name="EditTextLayoutStyle">
+
+    <style name="EditTextLayoutStyle" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
         <item name="android:layout_width">match_parent</item>
         <item name="android:layout_marginTop">@dimen/margin_12dp</item>
         <item name="android:layout_height">match_parent</item>

@@ -130,7 +130,8 @@ class RegistrationViewModel(application: Application) : AndroidViewModel(applica
 
 
                                 val user = mAuth.currentUser
-                                //sign out the user so he can be redirected to login screen
+                                //sign out the user so they can verify their email before logging
+                                //in on the login page
                                 mAuth.signOut()
                                 //set isRegComplete to true so we can hide the progress bar
                                 _isRegComplete.value = true

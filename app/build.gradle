@@ -35,8 +35,10 @@ android {
         exclude 'META-INF/atomicfu.kotlin_module'
     }
 
-    dataBinding {
-        enabled = true
+    buildFeatures{
+        dataBinding = true
+        // for view binding :
+        // viewBinding = true
     }
 
 }
@@ -87,7 +89,7 @@ dependencies {
     implementation 'com.squareup.picasso:picasso:2.71828'
 
     //google analytics
-    implementation 'com.google.firebase:firebase-analytics:17.2.2'
+    implementation 'com.google.firebase:firebase-analytics:17.4.3'
     //firebase authentication
     // For example, to also use Firebase Authentication
     implementation 'com.google.firebase:firebase-auth:19.3.1'
