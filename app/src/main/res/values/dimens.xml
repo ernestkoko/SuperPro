@@ -4,4 +4,5 @@
     <dimen name="margin_24dp">24dp</dimen>
     <dimen name="ten_dp_dim">10dp</dimen>
     <dimen name="dp_16_dim">16dp</dimen>
+    <dimen name="dimen_50dp">150dp</dimen>
 </resources>

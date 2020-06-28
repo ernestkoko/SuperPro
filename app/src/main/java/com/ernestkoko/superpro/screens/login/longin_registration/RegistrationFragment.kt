@@ -1,17 +1,13 @@
 package com.ernestkoko.superpro.screens.login.longin_registration
 
-import android.app.Activity
-import android.app.AlertDialog
-import android.content.Context
 import android.os.Bundle
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.view.inputmethod.InputMethodManager
 import android.widget.ProgressBar
 import android.widget.Toast
-import androidx.core.content.getSystemService
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
@@ -42,9 +38,12 @@ class RegistrationFragment : Fragment() {
         //instantiate the viewModel
         val viewModel =
             ViewModelProvider(this, viewModelFactory).get(RegistrationViewModel::class.java)
+        Log.i("RegFragment", "RegFrag initialised")
 
         //connect the viewModel to binding class
         mBinding.regViewModel = viewModel
+        //bind the progress bar
+        mProgressBar = mBinding.progressBar
 
         //observe if any of the fields is empty
         viewModel.isFieldEmpty.observe(viewLifecycleOwner, Observer { fieldIsEmpty ->
@@ -71,26 +70,20 @@ class RegistrationFragment : Fragment() {
                 ).show()
             }
         })
-//        val inflater1 = requireContext().getSystemService(Context.LAYOUT_INFLATER_SERVICE) as LayoutInflater
-//        mBinding.
-//
-//        //the progress bar
-//        val builder = AlertDialog.Builder(requireContext())
-
 
         //listen for when the reg is complete or not so we can show the progress bar
-        viewModel.isRegComplete.observe(viewLifecycleOwner, Observer { isRegComplete ->
-            if (!isRegComplete) {
+        viewModel.showProgressBar.observe(viewLifecycleOwner, Observer { showProgressBar ->
+            if (showProgressBar) {
                 //initialise the progress bar
-                mProgressBar = mBinding.progressBar
+
 
                 //set the progress bar to be visible
-                hideOtherViews()
+                showProgBar()
 
 
             } else {
                 //hide the progress bar
-                showOtherViews()
+                hideProgBar()
             }
         })
         //listen for when the registration was successful or failed
@@ -113,28 +106,20 @@ class RegistrationFragment : Fragment() {
         return mBinding.root
     }
 
-    private fun hideOtherViews(){
+    private fun showProgBar(){
         //hide all other views apart from progress bar
         mBinding.progressBar.visibility = View.VISIBLE
-        mBinding.companyNameEdit.visibility = View.INVISIBLE
-        mBinding.companyEmailEdit.visibility = View.INVISIBLE
-        mBinding.companyPhoneNumberEdit.visibility = View.INVISIBLE
-        mBinding.companyAddressEdit.visibility = View.INVISIBLE
-        mBinding.companyPasswordEdit1.visibility = View.INVISIBLE
-        mBinding.companyPasswordEdit2.visibility = View.INVISIBLE
-        mBinding.registrationButton.visibility = View.INVISIBLE
+
     }
-    private fun showOtherViews(){
+    private fun hideProgBar(){
         //show all other views and set the progress bar to GONE so it does not take space while
         //invisible
-        mBinding.progressBar.visibility = View.GONE
-        mBinding.companyNameEdit.visibility = View.VISIBLE
-        mBinding.companyEmailEdit.visibility = View.VISIBLE
-        mBinding.companyPhoneNumberEdit.visibility = View.VISIBLE
-        mBinding.companyAddressEdit.visibility = View.VISIBLE
-        mBinding.companyPasswordEdit1.visibility = View.VISIBLE
-        mBinding.companyPasswordEdit2.visibility = View.VISIBLE
-        mBinding.registrationButton.visibility = View.VISIBLE
+        //check if it is visible first
+        if (mBinding.progressBar.visibility == View.VISIBLE){
+            mBinding.progressBar.visibility = View.INVISIBLE
+        }
+
+
 
     }
 

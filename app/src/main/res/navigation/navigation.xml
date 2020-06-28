@@ -94,6 +94,6 @@
         <action
             android:id="@+id/action_global_products_fragment2"
             app:destination="@id/products_fragment" />
-   <!-- </navigation> -->
+    <!-- </navigation> -->
 
 </navigation>

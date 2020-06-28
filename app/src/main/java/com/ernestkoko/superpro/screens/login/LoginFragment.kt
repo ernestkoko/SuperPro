@@ -1,17 +1,21 @@
 package com.ernestkoko.superpro.screens.login
 
+import android.content.Context
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
+import androidx.core.content.ContextCompat.getSystemService
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.findNavController
 import androidx.navigation.fragment.findNavController
 import com.ernestkoko.superpro.R
+import com.ernestkoko.superpro.ResendVerificationDialog
 import com.ernestkoko.superpro.databinding.FragmentLoginBinding
 
 
@@ -74,7 +78,7 @@ class LoginFragment : Fragment() {
             }
         })
         //listen for when the auth is fails
-        viewModel.isAuthSuccessful.observe(viewLifecycleOwner, Observer {
+        viewModel.isEmailVerified.observe(viewLifecycleOwner, Observer {
             if (!it) {
                 //toast a message to the user that login failed
                 Toast.makeText(
@@ -82,10 +86,23 @@ class LoginFragment : Fragment() {
                     Toast.LENGTH_LONG
                 ).show()
 
+            } else{
+                //take the user to product fragment if the email is verified
+                this.findNavController().navigate(R.id.action_global_products_fragment)
+            }
+        })
+        //listen for when the resend verification email is clicked
+        viewModel.resendEmail.observe(viewLifecycleOwner, Observer {
+            if (it){
+                //navigate to resend verification email dialog fragment
+                val dialog = ResendVerificationDialog()
+                dialog.show(parentFragmentManager,"dialog_resend_email_verification")
+
             }
         })
 
         return binding.root
     }
+
 
 }

@@ -42,7 +42,7 @@
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_gravity">center</item>
-        <item name="android:layout_marginTop">50dp</item>
+        <item name="android:layout_marginTop">30dp</item>
         <item name="textAllCaps">false</item>
     </style>
 
@@ -85,6 +85,16 @@
         <item name="android:layout_marginStart">@dimen/margin_24dp</item>
         <item name="android:layout_marginTop">@dimen/ten_dp_dim</item>
         <item name="android:layout_marginEnd">@dimen/margin_24dp</item>
+    </style>
+
+    <style name="ProgressBarStyle">
+        <item name="android:layout_width">@dimen/dimen_50dp</item>
+        <item name="android:layout_height">@dimen/dimen_50dp</item>
+        <item name="android:layout_gravity">center</item>
+        <item name="android:layout_centerHorizontal">true</item>
+        <item name="android:layout_margin">@dimen/margin_24dp</item>
+        <item name="android:indeterminate">true</item>
+        <item name="android:visibility">invisible</item>
     </style>
 
 

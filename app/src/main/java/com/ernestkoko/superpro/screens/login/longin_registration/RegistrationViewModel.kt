@@ -1,10 +1,7 @@
 package com.ernestkoko.superpro.screens.login.longin_registration
 
 import android.app.Application
-import android.text.TextUtils
 import android.util.Log
-import androidx.databinding.BaseObservable
-import androidx.databinding.Bindable
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -16,6 +13,8 @@ import com.google.firebase.auth.FirebaseAuth
  */
 
 class RegistrationViewModel(application: Application) : AndroidViewModel(application) {
+    private val TAG = "RegViewModel"
+
     enum class AuthenticationState {
         UNAUTHENTICATED,        // Initial state, the user needs to authenticate
         AUTHENTICATED,        // The user has authenticated successfully
@@ -23,7 +22,7 @@ class RegistrationViewModel(application: Application) : AndroidViewModel(applica
     }
 
     //instance of the firebase auth
-    private val mAuth = FirebaseAuth.getInstance()
+    private var mAuth = FirebaseAuth.getInstance()
 
     //email live data for two way data binding
 
@@ -71,9 +70,8 @@ class RegistrationViewModel(application: Application) : AndroidViewModel(applica
         get() = _isRegSuccessful
 
     //check if registration task is complete
-    private val _isRegComplete = MutableLiveData<Boolean>()
-    val isRegComplete: LiveData<Boolean>
-        get() = _isRegComplete
+    val showProgressBar = MutableLiveData<Boolean>()
+
 
     //check if the fields are empty
     private val _isFieldEmpty = MutableLiveData<Boolean>()
@@ -104,78 +102,106 @@ class RegistrationViewModel(application: Application) : AndroidViewModel(applica
 
     //fun that collects profile data
     fun registerNewUser() {
+        Log.i(TAG, "Reg new user called")
         //check if input strings are empty or null
-        if (!isEmptyOrNull(_email.value) &&
-            !isEmptyOrNull(_password.value) &&
-            !isEmptyOrNull(_password2.value)
+        if (!_email.value.isNullOrEmpty() &&
+            !_password.value.isNullOrEmpty() &&
+            !_password2.value.isNullOrEmpty()
         ) {
+            Log.i(TAG, "Fields are  not empty")
             //set the live data _isFieldEmpty to false
             _isFieldEmpty.value = false
             //check if the email is valid
-            if (isValidEmail(_email.value)) {
+            if (isValidEmail(_email.value!!)) {
+                Log.i(TAG, "Email is valid")
                 //set this to true
                 _validEmail.value = true
                 //check if the password match
                 if (doStringsMatch(_password.value!!, _password2.value!!)) {
+                    Log.i(TAG, "Passwords match")
                     //if passwords are match show a progress bar on from the fragment
                     _arePasswordsMatch.value = true
                     //set isRegComplete to false so we can show the progress bar
-                    _isRegComplete.value = false
+                    showProgressBar.value = true
                     // register the new user here
                     //get the instance of Firebase Authentication and create new user with email and password
-                    FirebaseAuth.getInstance()
-                        .createUserWithEmailAndPassword(_email.value!!, _password.value!!)
-                        .addOnCompleteListener { task ->
-                            if (task.isSuccessful) {
-
-
+                    mAuth.createUserWithEmailAndPassword(_email.value!!, _password.value!!)
+                        .addOnCompleteListener {
+                            //
+                            Log.d(TAG, "RegTAsk executed")
+                            //it, refers to the createUserWithEmailAndPassword task
+                            if (it.isSuccessful) {
+                                Log.i(TAG, "Reg task successful")
+                                //send a verification email
+                                sendVerificationEmail()
                                 val user = mAuth.currentUser
+                                Log.d(TAG, "TaskSuccessful for user with email ${user!!.email}")
                                 //sign out the user so they can verify their email before logging
                                 //in on the login page
                                 mAuth.signOut()
                                 //set isRegComplete to true so we can hide the progress bar
-                                _isRegComplete.value = true
+                                showProgressBar.value = false
                                 //set the isRegSuccessful to true so we can toast a message to the user
                                 _isRegSuccessful.value = true
-                                Log.i(
-                                    "Registration",
-                                    "Complete: AuthState: " + mAuth.currentUser?.uid
-                                )
+                                Log.i(TAG, "Complete: AuthState: " + mAuth.currentUser?.uid)
 
                             } else {
+                                Log.i(TAG, "Reg Task unsuccessful")
                                 //set the regComplete to true
-                                _isRegComplete.value = true
+                                showProgressBar.value = false
                                 //set the _isRegSuccessful to false
                                 _isRegSuccessful.value = false
 
-                                Log.i("Registration", "Unable to register")
+                                Log.i(TAG, "Unable to register")
 
                             }
-                            _isRegComplete.value = true
-
-
                         }
+                    Log.i(TAG, "Reg task finished")
+
+                    showProgressBar.value = false
 
                 } else {
+                    Log.i(TAG, "Passwords do not match")
                     //set passwords match to false
                     _arePasswordsMatch.value = false
 
 
                 }
 
+
             } else {
+                Log.i(TAG, "Email is invalid")
                 //the email is not valid
                 _validEmail.value = false
-
             }
 
-
         } else {
+            Log.i(TAG, "Fields are empty")
             //Alert the user to fill all the fields
             _isFieldEmpty.value = true
         }
 
 
+    }
+
+    /**
+     * send a verification email to new user
+     */
+    private fun sendVerificationEmail() {
+        Log.i(TAG, "sendVerificationEmail(): called")
+        //get  the user
+        val user = mAuth.currentUser
+        //send verification email to the user
+        user?.sendEmailVerification()?.addOnCompleteListener() { task ->
+            //check if task was successful
+            if (task.isSuccessful) {
+                Log.i(TAG, "Verification email was sent")
+            } else {
+                Log.i(TAG, "Verification email was not sent")
+
+
+            }
+        }
     }
 
 
@@ -197,7 +223,7 @@ class RegistrationViewModel(application: Application) : AndroidViewModel(applica
      */
     fun isValidEmail(email: CharSequence?): Boolean {
         //returns true if email is not empty and it matches standard email format
-        return android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
+        return android.util.Patterns.EMAIL_ADDRESS.matcher(email!!).matches()
 
     }
 
@@ -206,5 +232,5 @@ class RegistrationViewModel(application: Application) : AndroidViewModel(applica
      * the method returns true if the string null or empty
      *
      */
-    private fun isEmptyOrNull(string: String?): Boolean = string.isNullOrEmpty()
+    private fun isEmptyOrNull(string: String): Boolean = string.isNullOrEmpty()
 }
