@@ -76,7 +76,7 @@
                             android:id="@+id/company_password_edit1"
                             style="@style/text_input_edit"
                             android:inputType="textPassword"
-                            android:text="@={regViewModel._password}" />
+                             />
 
 
                     </com.google.android.material.textfield.TextInputLayout>
@@ -89,7 +89,7 @@
                             android:id="@+id/company_password_edit2"
                             style="@style/text_input_edit"
                             android:inputType="textPassword"
-                            android:text="@={regViewModel._password2}" />
+                            />
                     </com.google.android.material.textfield.TextInputLayout>
 
                     <com.google.android.material.textfield.TextInputLayout
@@ -127,7 +127,6 @@
                         style="@style/ButtonStyle"
                         android:layout_marginTop="13dp"
                         android:contentDescription="@string/new_user_register_button"
-                        android:onClick="@{() -> regViewModel.registerNewUser()}"
                         android:text="@string/register" />
                 </com.google.android.material.textfield.TextInputLayout>
 

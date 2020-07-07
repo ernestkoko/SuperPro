@@ -40,91 +40,23 @@
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/welcome_message">
 
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/sign_in_email_layout"
-                        style="@style/EditTextLayoutStyle"
-                        android:hint="@string/email">
-
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/sign_in_edit_email"
-                            style="@style/text_input_edit"
-                            android:contentDescription="@string/enter_your_email_for_registration"
-                            android:inputType="textEmailAddress"
-                            android:text="@={logInViewModel.MEmail}" />
-                    </com.google.android.material.textfield.TextInputLayout>
-
-                    <com.google.android.material.textfield.TextInputLayout
-                        android:id="@+id/sign_in_password_layout"
-                        style="@style/EditTextLayoutStyle"
-                        android:hint="@string/password">
-
-                        <com.google.android.material.textfield.TextInputEditText
-                            android:id="@+id/sign_in_edit_password"
-                            style="@style/text_input_edit"
-                            android:contentDescription="@string/enter_your_password_for_regisration"
-                            android:inputType="text|textPassword"
-                            android:text="@={logInViewModel.MPassword}" />
-                    </com.google.android.material.textfield.TextInputLayout>
-
                     <com.google.android.material.button.MaterialButton
                         android:id="@+id/sign_in_button"
                         style="@style/ButtonStyle"
                         android:contentDescription="@string/sign_in_button"
-                        android:onClick="@{() -> logInViewModel.signInMethod()}"
                         android:text="@string/sign_in" />
 
-                    <com.google.android.material.textview.MaterialTextView
-                        android:id="@+id/register_message_id"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center"
-                        android:layout_marginTop="20dp"
-                        android:contentDescription="@string/you_don_t_have_an_account"
-                        android:text="@string/you_don_t_have_an_account"
-                        android:textColor="@color/colorAccent"
-                        android:textStyle="italic" />
 
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/register_button"
-                        style="@style/ButtonStyle"
-                        android:layout_marginTop="@dimen/ten_dp_dim"
-                        android:contentDescription="@string/new_user_register_button"
-                        android:text="@string/register"
 
-                        />
 
-                    <com.google.android.material.textview.MaterialTextView
-                        android:id="@+id/forgot_password"
 
-                        style="@style/Login_TextView_Style"
-                        android:layout_gravity="center"
-                        android:contentDescription="@string/forgot_password"
-                        android:text="@string/forgot_password" />
 
-                    <com.google.android.material.button.MaterialButton
-                        android:id="@+id/reset_password_button"
-                        style="@style/ButtonStyle"
-                        android:layout_marginTop="@dimen/ten_dp_dim"
-                        android:contentDescription="@string/password_reset_button"
-                        android:text="@string/reset"
-
-                        />
-
-                    <com.google.android.material.textview.MaterialTextView
-                        android:id="@+id/resend_verification_email"
-                        style="@style/Login_TextView_Style"
-                        android:layout_gravity="center"
-                        android:onClick="@{ () ->logInViewModel.resendVerificationEmail()}"
-                        android:text="Resend Verification Email?"
-                        android:textAllCaps="false" />
                 </com.google.android.material.textfield.TextInputLayout>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </ScrollView>
 
-        <ProgressBar
-            android:id="@+id/progress_bar"
-            style="@style/ProgressBarStyle" />
+
     </RelativeLayout>
 
 

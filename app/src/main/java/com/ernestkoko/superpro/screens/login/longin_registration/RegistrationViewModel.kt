@@ -5,14 +5,17 @@ import android.util.Log
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.ViewModel
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.FirebaseAuthProvider
+import com.google.firebase.auth.FirebaseUser
 
 /**
  * Registration page viewModel class where all the business logic for the fragment are carried out
  * It contains Live data that the fragment can observe
  */
 
-class RegistrationViewModel(application: Application) : AndroidViewModel(application) {
+class RegistrationViewModel() : ViewModel() {
     private val TAG = "RegViewModel"
 
     enum class AuthenticationState {
@@ -90,6 +93,7 @@ class RegistrationViewModel(application: Application) : AndroidViewModel(applica
 
     //init block is called anytime the class is instantiated
     init {
+        showProgressBar.value = false
         //initialise the validEmail
 //        _validEmail.value = false
 //        _showDialog.value = false
@@ -99,6 +103,7 @@ class RegistrationViewModel(application: Application) : AndroidViewModel(applica
 
 
     }
+
 
     //fun that collects profile data
     fun registerNewUser() {
@@ -123,42 +128,39 @@ class RegistrationViewModel(application: Application) : AndroidViewModel(applica
                     _arePasswordsMatch.value = true
                     //set isRegComplete to false so we can show the progress bar
                     showProgressBar.value = true
-                    // register the new user here
-                    //get the instance of Firebase Authentication and create new user with email and password
                     mAuth.createUserWithEmailAndPassword(_email.value!!, _password.value!!)
                         .addOnCompleteListener {
-                            //
-                            Log.d(TAG, "RegTAsk executed")
-                            //it, refers to the createUserWithEmailAndPassword task
-                            if (it.isSuccessful) {
-                                Log.i(TAG, "Reg task successful")
-                                //send a verification email
-                                sendVerificationEmail()
-                                val user = mAuth.currentUser
-                                Log.d(TAG, "TaskSuccessful for user with email ${user!!.email}")
-                                //sign out the user so they can verify their email before logging
-                                //in on the login page
-                                mAuth.signOut()
-                                //set isRegComplete to true so we can hide the progress bar
-                                showProgressBar.value = false
-                                //set the isRegSuccessful to true so we can toast a message to the user
-                                _isRegSuccessful.value = true
-                                Log.i(TAG, "Complete: AuthState: " + mAuth.currentUser?.uid)
+                            if (it.isComplete) {
+                                //task is complete
+                                Log.i(TAG, "CreateEmail: completed")
 
+                                if (it.isSuccessful) {
+                                    Log.i(TAG, "CreateEmail: Successful")
+                                    //task is successful
+                                    sendVerificationEmail(mAuth.currentUser!!)
+                                    showProgressBar.value = false
+                                    _isRegSuccessful.value = true
+                                } else {
+                                    Log.i(TAG, "CreateEmail: Not successful")
+                                    Log.i(TAG,it.exception?.localizedMessage)
+                                    //task is not successful
+
+                                    showProgressBar.value = false
+                                    _isRegSuccessful.value = false
+                                }
                             } else {
-                                Log.i(TAG, "Reg Task unsuccessful")
-                                //set the regComplete to true
-                                showProgressBar.value = false
-                                //set the _isRegSuccessful to false
-                                _isRegSuccessful.value = false
-
-                                Log.i(TAG, "Unable to register")
-
+                                //task is not complete
+                                Log.i(TAG, "CreateEmail: Not complete")
+                                Log.i(TAG, it.exception?.localizedMessage)
                             }
                         }
-                    Log.i(TAG, "Reg task finished")
 
+
+                     if (mAuth.currentUser != null) sendVerificationEmail(mAuth.currentUser!!)
+
+                    Log.i(TAG, "Reg task finished")
                     showProgressBar.value = false
+
 
                 } else {
                     Log.i(TAG, "Passwords do not match")
@@ -187,21 +189,27 @@ class RegistrationViewModel(application: Application) : AndroidViewModel(applica
     /**
      * send a verification email to new user
      */
-    private fun sendVerificationEmail() {
+    private fun sendVerificationEmail(user: FirebaseUser) {
         Log.i(TAG, "sendVerificationEmail(): called")
         //get  the user
-        val user = mAuth.currentUser
+       // val user = mAuth.currentUser
         //send verification email to the user
-        user?.sendEmailVerification()?.addOnCompleteListener() { task ->
+        user!!.sendEmailVerification().addOnSuccessListener {
             //check if task was successful
-            if (task.isSuccessful) {
-                Log.i(TAG, "Verification email was sent")
-            } else {
-                Log.i(TAG, "Verification email was not sent")
+            Log.i(TAG, "Verification email was sent: Success")
+            //sign out the user so they can verify their email before logging
+            //in on the login page
+            mAuth.signOut()
 
-
-            }
+        }.addOnFailureListener {
+            Log.i(TAG, "Verification Email sending: Failed")
+            //sign out the user
+            mAuth.signOut()
         }
+        Log.i(TAG, "User signed out")
+        //sign out the user so they can verify their email before logging
+        //in on the login page
+        mAuth.signOut()
     }
 
 
@@ -227,10 +235,53 @@ class RegistrationViewModel(application: Application) : AndroidViewModel(applica
 
     }
 
-    /**
-     * @param string is the string to be tested
-     * the method returns true if the string null or empty
-     *
-     */
-    private fun isEmptyOrNull(string: String): Boolean = string.isNullOrEmpty()
+//    private fun authState(firebaseCallback: FirebaseCallback) {
+//        // register the new user here
+//        //get the instance of Firebase Authentication and create new user with email and password
+//        mAuth.createUserWithEmailAndPassword(_email.value!!, _password.value!!)
+//            .addOnCompleteListener {
+//                if (it.isComplete) {
+//                    Log.i(TAG, "Task is  completed")
+//                    //task is complete
+//                    if (it.isSuccessful) {
+//                        Log.i(TAG, "Task is not successful")
+//                        //is successful
+//                        sendVerificationEmail()
+//                        showProgressBar.value = false
+//                        _isRegSuccessful.value = true
+//                    } else {
+//                        Log.i(TAG, "Task is not successful")
+//                        Log.i(TAG, it.exception!!.localizedMessage)
+//                        //not successful
+//                    }
+//
+//                } else {
+//                    //task not complete
+//                    Log.i(TAG, "Task is not completed")
+//                    Log.i(TAG, it.exception!!.localizedMessage)
+//                }
+//                Log.i(TAG, "Reg TaskSuccessful")
+    //send a verification email to the user
+//                sendVerificationEmail()
+//                showProgressBar.value = false
+//                _isRegSuccessful.value = true
+
+//            }.addOnFailureListener {
+//                Log.i(TAG, "Reg Task unsuccessful")
+//                Log.i(TAG, it.localizedMessage)
+//                //set the regComplete to true
+//                showProgressBar.value = false
+//                //set the _isRegSuccessful to false
+//                _isRegSuccessful.value = false
+//
+//                Log.i(TAG, "Unable to register")
+//
+//            }
+
 }
+
+
+//private interface FirebaseCallback{
+//    fun callback(firebaseAuth: FirebaseAuth)
+//
+//}

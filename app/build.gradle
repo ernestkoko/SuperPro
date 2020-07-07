@@ -55,7 +55,7 @@ dependencies {
     androidTestImplementation 'androidx.test.ext:junit:1.1.1'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
     //drawer layout
-    implementation "androidx.drawerlayout:drawerlayout:1.0.0"
+    implementation 'androidx.drawerlayout:drawerlayout:1.1.0'
     // Room components
     implementation "androidx.room:room-runtime:$rootProject.roomVersion"
     kapt "androidx.room:room-compiler:$rootProject.roomVersion"
@@ -80,8 +80,8 @@ dependencies {
     testImplementation 'junit:junit:4.13'
     androidTestImplementation "androidx.arch.core:core-testing:$rootProject.coreTestingVersion"
     //navigation
-    implementation 'androidx.navigation:navigation-fragment-ktx:2.2.2'
-    implementation 'androidx.navigation:navigation-ui-ktx:2.2.2'
+    implementation 'androidx.navigation:navigation-fragment-ktx:2.3.0'
+    implementation 'androidx.navigation:navigation-ui-ktx:2.3.0'
 
     //working image glide
     implementation "com.github.bumptech.glide:glide:4.11.0"
@@ -89,10 +89,12 @@ dependencies {
     implementation 'com.squareup.picasso:picasso:2.71828'
 
     //google analytics
-    implementation 'com.google.firebase:firebase-analytics:17.4.3'
+    implementation 'com.google.firebase:firebase-analytics:17.2.2'
     //firebase authentication
     // For example, to also use Firebase Authentication
     implementation 'com.google.firebase:firebase-auth:19.3.1'
+    implementation 'com.firebaseui:firebase-ui-auth:6.2.0'
+    implementation 'com.google.firebase:firebase-database-ktx:19.3.1'
 
 
 }

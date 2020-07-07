@@ -24,6 +24,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.ernestkoko.superpro.R
 import com.ernestkoko.superpro.adapter.ProductClickListener
 import com.ernestkoko.superpro.adapter.ProductListAdapter
+import com.ernestkoko.superpro.data.Product
 import com.ernestkoko.superpro.databinding.FragmentProductsBinding
 import com.google.android.material.navigation.NavigationView
 
@@ -31,30 +32,31 @@ import com.google.android.material.navigation.NavigationView
 /**
  * A simple [Fragment] subclass.
  */
-class ProductsFragment  : Fragment()  {
+class ProductsFragment : Fragment() {
 //   private var _binding: FragmentProductsBinding? = null
 //    private val binding get() = _binding!!
 
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
-        savedInstanceState: Bundle? ): View? {
+        savedInstanceState: Bundle?
+    ): View? {
         // Inflate the layout for this fragment
-       val binding: FragmentProductsBinding =
-           DataBindingUtil.inflate(inflater,R.layout.fragment_products,container, false)
+        val binding: FragmentProductsBinding =
+            DataBindingUtil.inflate(inflater, R.layout.fragment_products, container, false)
         //find the navController and set up the tool bar
         val navController = findNavController()
         val drawer = binding.drawerLayout
 
         val appBarConfiguration = AppBarConfiguration(navController.graph, drawer)
-       binding.productToolBar
+        binding.productToolBar
             .setupWithNavController(navController, appBarConfiguration)
         binding.navView.setupWithNavController(navController)
 
 
         //get the application context. requiredNotNull throws illegal arg exception if it is null
         val application = requireNotNull(this.activity).application
-       // val dataSource = ProductDatabase.getDataBase(application).productDao()
+        // val dataSource = ProductDatabase.getDataBase(application).productDao()
         //create the view model instance
         val viewModelFactory = ProductsViewModelFactory(application)
         //create the view model
@@ -63,20 +65,23 @@ class ProductsFragment  : Fragment()  {
         binding.productsViewModel = viewModel
         binding.setLifecycleOwner(this)
 
-        binding.recyclerView.layoutManager = LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
-       //tell the adapter about the id of the view that was clicked
-        val adapter = ProductListAdapter(ProductClickListener {
-            productId -> viewModel.onProductItemClicked(productId)
+        binding.recyclerView.layoutManager =
+            LinearLayoutManager(activity, RecyclerView.VERTICAL, false)
+        //tell the adapter about the id of the view that was clicked
+        val adapter = ProductListAdapter(ProductClickListener { productId ->
+            viewModel.onProductItemClicked(productId)
         })
         binding.recyclerView.adapter = adapter
-       // val layoutManager = LinearLayoutManager(activity)
-        viewModel.navigateToProductDetails.observe(viewLifecycleOwner, Observer {product ->
+        // val layoutManager = LinearLayoutManager(activity)
+        viewModel.navigateToProductDetails.observe(viewLifecycleOwner, Observer { product ->
             product?.let {
                 //navigate to Product details screen where the details will be shown and can be
                 // edited
                 //Navigate by passing the id of the product as args
-             this.findNavController().navigate(ProductsFragmentDirections
-                 .actionProductsFragmentToProductDetails(product))
+                this.findNavController().navigate(
+                    ProductsFragmentDirections
+                        .actionProductsFragmentToProductDetails(product)
+                )
                 //call the navigated method to set the value of the id to null
                 viewModel.onProductDetailsNavigated()
             }
@@ -84,38 +89,37 @@ class ProductsFragment  : Fragment()  {
         })
 
 
+//        viewModel.fireProducts.observe(viewLifecycleOwner, Observer {
+//
+//            it?.let {
+//                adapter.submitList(it as List<Product>)
+//            }
+//        })
+
+//        viewModel.allProducts1.observe(viewLifecycleOwner, Observer {
+//            it?.let {
+//                //listAdapter uses submitList()
+//                //submit the list of Products to the adapter
+//               adapter.submitList(it)
+//
+//               // Log.i("ProductsFrag", it.toString())
+//            }
+//
+//        })
 
 
-        viewModel.allProducts1.observe(viewLifecycleOwner, Observer {
-            it?.let {
-                //listAdapter uses submitList()
-                //submit the list of Products to the adapter
-               adapter.submitList(it)
-
-               // Log.i("ProductsFrag", it.toString())
-            }
-
-        })
-
-
-
-
-       binding.addFab.setOnClickListener{view ->
-           // navigate to the new product fragment where new product can be added
-           view.findNavController().navigate(R.id.action_productsFragment_to_newProductFragment)
-       }
+        binding.addFab.setOnClickListener { view ->
+            // navigate to the new product fragment where new product can be added
+            view.findNavController().navigate(R.id.action_productsFragment_to_newProductFragment)
+        }
 
 
         //activate the on click listener
 
 
-
         return binding.root
 
     }
-
-
-
 
 
 }

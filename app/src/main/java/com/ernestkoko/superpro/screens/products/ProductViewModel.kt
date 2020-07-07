@@ -10,6 +10,13 @@ import com.ernestkoko.superpro.data.ProductDatabase
 import com.ernestkoko.superpro.data.ProductRepository
 
 import com.ernestkoko.superpro.data.ProductsDao
+import com.ernestkoko.superpro.firebase.FirebaseProducts
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
+import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.ktx.database
+import com.google.firebase.ktx.Firebase
 import kotlinx.coroutines.*
 
 class ProductViewModel(
@@ -30,6 +37,11 @@ class ProductViewModel(
        repository = ProductRepository(productDao)
        allProducts1 = repository.getAllProducts
     }
+   private val _fireProducts = repository.getFbProducts()
+    val fireProducts : LiveData<ArrayList<FirebaseProducts>>
+    get() = _fireProducts
+
+
 
 
     //navigate to product details

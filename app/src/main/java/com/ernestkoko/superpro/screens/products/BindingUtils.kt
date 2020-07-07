@@ -1,17 +1,10 @@
 package com.ernestkoko.superpro.screens.products
 
-import android.content.Intent
-import android.provider.MediaStore
 import android.widget.ImageView
 import android.widget.TextView
-import androidx.core.net.toUri
-
 import androidx.databinding.BindingAdapter
-import com.bumptech.glide.Glide
-import com.bumptech.glide.load.resource.bitmap.RoundedCorners
-import com.bumptech.glide.request.RequestOptions
-import com.ernestkoko.superpro.R
 import com.ernestkoko.superpro.data.Product
+import com.ernestkoko.superpro.firebase.FirebaseProducts
 import com.squareup.picasso.Picasso
 
 @BindingAdapter("productName")
@@ -49,4 +42,23 @@ fun bindImage(imageView: ImageView, product: Product?) {
 //                .error(R.drawable.ic_add))
 //            .into(imgView)
 //    }
+
+    @BindingAdapter("fireProductName")
+    fun TextView.setName(product: FirebaseProducts?){
+        product?.let {
+            text = product.name
+        }
+    }
+    @BindingAdapter("fireProductManufacturer")
+    fun TextView.setManufacturer(product: FirebaseProducts?){
+        product?.let {
+            text = product.manufacturer
+        }
+    }
+    @BindingAdapter("firebaseProdExpDate")
+    fun TextView.setExpDate(product: FirebaseProducts?){
+        product?.let {
+            text = product.expiry_date
+        }
+    }
 }
