@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "707572169334",
+    "firebase_url": "https://superpro-9bfc8.firebaseio.com",
+    "project_id": "superpro-9bfc8",
+    "storage_bucket": "superpro-9bfc8.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:707572169334:android:7bf7cffa1f541b0f4d3d57",
+        "android_client_info": {
+          "package_name": "com.ernestkoko.superpro"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "707572169334-e0goatl3ln3na9um388ue150mpn41j7t.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDj5KPC_PNqVP7DQ5XxCh24C_Oar0ntmqU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "707572169334-e0goatl3ln3na9um388ue150mpn41j7t.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

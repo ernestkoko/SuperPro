@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout>
+
+    <data>
+
+    </data>
+
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/dialogChoosePhoto"
+            style="@style/TextView_Style"
+            android:layout_marginTop="@dimen/margin_24dp"
+
+            android:layout_marginBottom="@dimen/margin_24dp"
+
+
+            android:text="Photo from Memory?" />
+
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/dialogOpenCamera"
+            style="@style/TextView_Style"
+            android:layout_below="@+id/dialogChoosePhoto"
+            android:layout_marginBottom="@dimen/margin_24dp"
+            android:text="Take New Photo?" />
+
+    </RelativeLayout>
+</layout>
