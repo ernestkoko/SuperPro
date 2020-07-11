@@ -46,5 +46,7 @@
     <string name="registration_successful_message">Registration was successful!</string>
     <string name="registration_failed_meesage">Registration failed!</string>
     <string name="enter_your_registered_email_to_reset_password">Enter your registered email to reset password</string>
+    <string name="change_photo_dialog">ChangePhotoDialog</string>
+
 
 </resources>

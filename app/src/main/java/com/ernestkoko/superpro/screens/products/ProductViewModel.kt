@@ -35,6 +35,7 @@ class ProductViewModel(
     init {
        val productDao = ProductDatabase.getDataBase(application).productDao()
        repository = ProductRepository(productDao)
+
        allProducts1 = repository.getAllProducts
     }
    private val _fireProducts = repository.getFbProducts()

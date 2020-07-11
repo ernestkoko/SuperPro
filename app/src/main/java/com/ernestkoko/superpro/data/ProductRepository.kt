@@ -11,6 +11,11 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.ValueEventListener
 import com.google.firebase.database.ktx.database
 import com.google.firebase.ktx.Firebase
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.Job
+import kotlinx.coroutines.launch
+import okhttp3.Dispatcher
 
 //Declares the DAO as a private property in the constructor. Pass in the DAO
 // instead of the whole database, because you only need access to the DAO
@@ -23,6 +28,7 @@ class ProductRepository(private val productDao: ProductsDao) {
     // Observed LiveData will notify the observer when the data has changed.
     val getAllProducts: LiveData<List<Product>> = productDao.getAllProductsById()
 
+
     val fbProductList = ArrayList<FirebaseProducts>()
     fun getFbProducts(): MutableLiveData<ArrayList<FirebaseProducts>> {
         loadProducts()
@@ -34,25 +40,55 @@ class ProductRepository(private val productDao: ProductsDao) {
     private fun loadProducts() {
         val fbRef = Firebase.database.reference
         val query = fbRef.orderByKey().equalTo(FirebaseAuth.getInstance().uid)
-       query.addListenerForSingleValueEvent(object : ValueEventListener{
-           override fun onCancelled(error: DatabaseError) {
+        query.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onCancelled(error: DatabaseError) {
 
-           }
-
-           override fun onDataChange(snapshot: DataSnapshot) {
-            for(shot in snapshot.children){
-                fbProductList.add(shot.getValue(FirebaseProducts::class.java)!!)
             }
-           }
 
-       })
+            override fun onDataChange(snapshot: DataSnapshot) {
+                for (shot in snapshot.children) {
+                    fbProductList.add(shot.getValue(FirebaseProducts::class.java)!!)
+                }
+            }
+
+        })
     }
 
 
     //insert method to the firebase db
     fun insertIntoFirebase(firebaseProducts: FirebaseProducts) {
         //insert the product into firebase database
-        database.push().setValue(firebaseProducts)
+        database.child("products").child(auth.currentUser!!.uid).push().setValue(firebaseProducts)
+
+    }
+
+    //get product details from firebase database
+    fun getProductDetailsFromFb() {
+        val query = database.child("products").child(auth.currentUser!!.uid).orderByKey()
+
+        query.addValueEventListener(object : ValueEventListener {
+            override fun onCancelled(error: DatabaseError) {
+
+            }
+
+            override fun onDataChange(snapshot: DataSnapshot) {
+                for (singleSnapshot in snapshot.children) {
+                    var product1 = singleSnapshot.getValue(FirebaseProducts::class.java)
+
+                    val product = Product(
+                        1, product1!!.name, product1.image_url, 2,
+                        product1.expiry_date, product1.manufacturer
+                    )
+
+                    val job = Job()
+                    var uiScope = CoroutineScope(Dispatchers.Main + job)
+                    uiScope.launch {
+                        insert(product)
+                    }
+                    // insert(product)
+                }
+            }
+        })
 
     }
 

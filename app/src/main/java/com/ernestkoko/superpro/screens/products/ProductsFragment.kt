@@ -96,16 +96,16 @@ class ProductsFragment : Fragment() {
 //            }
 //        })
 
-//        viewModel.allProducts1.observe(viewLifecycleOwner, Observer {
-//            it?.let {
-//                //listAdapter uses submitList()
-//                //submit the list of Products to the adapter
-//               adapter.submitList(it)
-//
-//               // Log.i("ProductsFrag", it.toString())
-//            }
-//
-//        })
+        viewModel.allProducts1.observe(viewLifecycleOwner, Observer {
+            it?.let {
+                //listAdapter uses submitList()
+                //submit the list of Products to the adapter
+               adapter.submitList(it)
+
+               // Log.i("ProductsFrag", it.toString())
+            }
+
+        })
 
 
         binding.addFab.setOnClickListener { view ->

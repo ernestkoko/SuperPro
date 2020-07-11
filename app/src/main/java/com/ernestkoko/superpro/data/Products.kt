@@ -26,7 +26,7 @@ data class Product(
 
     //product expiry date
     @ColumnInfo(name = "product_Expiry_date")
-    var productExpiryDate: Date?,
+    var productExpiryDate: String?,
 
     //product manufacturer
     @ColumnInfo(name = "manufacturer")

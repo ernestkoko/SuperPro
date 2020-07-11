@@ -62,6 +62,13 @@
         <item name="android:layout_marginEnd">16dp</item>
         <item name="android:inputType">textEmailAddress</item>
     </style>
+    <style name="TextView_Style" parent="MaterialAlertDialog.MaterialComponents.Title.Text.CenterStacked">
+        <item name="android:textColor">@color/colorAccent</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+
+    </style>
 
     <style name="text_input_edit">
         <item name="android:layout_width">match_parent</item>

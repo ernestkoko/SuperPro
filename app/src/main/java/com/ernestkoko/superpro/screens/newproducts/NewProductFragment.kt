@@ -2,14 +2,12 @@ package com.ernestkoko.superpro.screens.newproducts
 
 import android.app.Activity
 import android.app.DatePickerDialog
-import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.net.Uri
+import android.os.Build
 import android.os.Bundle
-import android.os.Environment
-import android.provider.MediaStore
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
@@ -18,34 +16,32 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.DatePicker
-import android.widget.ImageView
 import android.widget.Toast
-import androidx.core.content.ContextCompat
-import androidx.core.content.FileProvider
-import androidx.core.widget.addTextChangedListener
+import androidx.core.app.ActivityCompat
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.findNavController
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.setupWithNavController
-import com.bumptech.glide.Glide
-import com.bumptech.glide.request.RequestOptions
 import com.ernestkoko.superpro.R
-import com.ernestkoko.superpro.data.Product
 import com.ernestkoko.superpro.databinding.FragmentNewProductBinding
 import com.squareup.picasso.Picasso
+import java.io.ByteArrayOutputStream
 import java.io.File
-import java.text.SimpleDateFormat
 import java.util.*
-import java.util.jar.Manifest
 
 /**
  * A simple [Fragment] subclass.
  */
-class NewProductFragment : Fragment() {
+class NewProductFragment : Fragment(), ChangePhotoDialog.OnPhotoReceivedListener {
     //    private var _binding: FragmentNewProductBinding? = null
 //    private val binding get() = _binding!!
+    private val TAG = "NewProdFrag"
     private lateinit var binding: FragmentNewProductBinding
+    private var mStoragePermissions: Boolean = false
+    private val PERM_REQUEST_CODE = 200
+    private var mSelectedImageBitMap: Bitmap? = null
+    private var mSelectedImageUri: Uri? = null
 
     //instantiate the view model
     private lateinit var viewModel: NewProductViewModel
@@ -125,33 +121,24 @@ class NewProductFragment : Fragment() {
         })
 
         //set image
-        val image = binding.newProductImage
-        image.setOnClickListener {
-            prepToTakePhoto()
-            //pick image from phone
-//            val intent = Intent()
-//            intent.type = "image/*"
-//            intent.action = Intent.ACTION_GET_CONTENT
-//            startActivityForResult(intent, PICK_IMAGE_REQUEST_CODE)
-//            Log.i("Intent: ", "Image picked")
-
-            // Picasso.get().load(R.drawable.ic_checked).into(binding.newProductImage)
+        binding.newProductImage.setOnClickListener {
+            if (mStoragePermissions) {
+                val dialog = ChangePhotoDialog()
+                dialog.setTargetFragment(this, 300)
+                dialog.show(parentFragmentManager, getString(R.string.change_photo_dialog))
+            } else {
+                verifyStoragePermission()
+            }
         }
-//
-//        val gallery = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.INTERNAL_CONTENT_URI)
-//        Picasso.get().load(R.drawable.ic_product_image).into(image)
-//        image.setImageResource(R.drawable.ic_add)
-//        Log.d("Picasso", "Loaded image")
-
-        //date
-        val date = Date()
-        //date picker dialogue
-        val c = Calendar.getInstance()
-        val year = c.get(Calendar.YEAR)
-        val month = c.get(Calendar.MONTH)
-        val day = c.get(Calendar.DAY_OF_MONTH)
 
         binding.buttonPickDate.setOnClickListener {
+            //date
+            val date = Date()
+            //date picker dialogue
+            val c = Calendar.getInstance()
+            val year = c.get(Calendar.YEAR)
+            val month = c.get(Calendar.MONTH)
+            val day = c.get(Calendar.DAY_OF_MONTH)
 
             val dpd = DatePickerDialog(
                 this.requireContext(),
@@ -168,7 +155,7 @@ class NewProductFragment : Fragment() {
                         val day = (dayOfMonth).toString() + "/"
                         val month1 = (month + 1).toString() + "/"
 
-                        viewModel.setDateToEditText( day + month1 + year.toString())
+                        viewModel.setDateToEditText(day + month1 + year.toString())
                     }
 
                 }, year, month, day
@@ -209,107 +196,106 @@ class NewProductFragment : Fragment() {
                 Toast.makeText(context, "Image Saved", Toast.LENGTH_LONG).show()
             }
         } else {
+            //toast a message to the user that image is not gotten
             Toast.makeText(context, "Image not gotten!", Toast.LENGTH_LONG).show()
         }
     }
 
-    //create a file with a unique time stamp
-    private fun createImageFile(): File {
-        //generates a unique filename with date
-        val timeStamp: String = SimpleDateFormat("yyyyMMdd_HHmmss").format(Date())
-        //get access to the directory where we can write pictures
-        val storageDir: File? =
-            requireContext()!!.getExternalFilesDir(Environment.DIRECTORY_PICTURES)
-        //create a file with name, file extension and storage location
-        return File.createTempFile("SuperPro${timeStamp}", ".jpg", storageDir).apply {
-            //this returns the path of the saved file
-            currentPhotoPath = absolutePath
-        }
-
-    }
-
-    private fun takePhotoWithCamera() {
-        Intent(MediaStore.ACTION_IMAGE_CAPTURE).also {
-                takePictureIntent -> takePictureIntent.resolveActivity(requireContext()!!.packageManager)
-            if (takePictureIntent == null) {
-                Toast.makeText(context, "Unable to save Photo", Toast.LENGTH_LONG).show()
+    /**
+     * method for verifying if the user has granted the required permissions
+     */
+    private fun verifyStoragePermission() {
+        Log.i("NewProdFrag", "verifyStoragePermission called")
+        //arrays of Strings of permission required
+        val permissions = arrayOf(
+            android.Manifest.permission.READ_EXTERNAL_STORAGE,
+            android.Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            android.Manifest.permission.CAMERA
+        )
+        // check if the Phone's SDK is equal to or greater than version M
+        //because from M and greater requires user to grant permission when it is needed and not
+        //the app is being installed
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            //check if permissions have been granted
+            if (requireContext().checkSelfPermission(permissions[0]) == PackageManager.PERMISSION_GRANTED
+                && requireContext().checkSelfPermission(permissions[1]) == PackageManager.PERMISSION_GRANTED
+                && requireContext().checkSelfPermission(permissions[2]) == PackageManager.PERMISSION_GRANTED
+            ) {
+                Log.i(TAG, "Permissions granted: Setting mStoragePermissions to true")
+                //if granted
+                mStoragePermissions = true
 
             } else {
-                //means the intent returns photo
-                val photoFile = createImageFile()
-                photoFile?.also {
-                    val photoURI = FileProvider.getUriForFile(
-                        requireContext()!!,
-                        "com.ernestkoko.superpro.fileprovider", photoFile
-                    )
-                    takePictureIntent.putExtra(MediaStore.EXTRA_OUTPUT, photoFile)
-                    startActivityForResult(takePictureIntent, SAVE_IMAGE_REQUEST_CODE)
-                }
+                Log.i("NewProdFrag", "VerifyPermissions: Asking user for permission")
+                //if not granted, request for permissions
+                ActivityCompat.requestPermissions(requireActivity(), permissions, PERM_REQUEST_CODE)
+
             }
         }
-    }
-
-    //pick an image from gallery
-    private fun pickImageFromGallery() {
-        //pick image from phone
-        val intent = Intent()
-        intent.type = "image/*"
-        intent.action = Intent.ACTION_PICK
-//        intent.also {
-//            //check if there is place to save the photo
-//                pickImageIntent ->
-//            pickImageIntent.resolveActivity(requireContext()!!.packageManager)
-//            if (pickImageIntent == null) {
-//                //if no place to save the photo
-//                Toast.makeText(context, "Unable to save the photo", Toast.LENGTH_LONG).show()
-//            } else {
-//                val imageFile = createImageFile()
-//                imageFile?.also {
-//                    val imageURI = FileProvider.getUriForFile(
-//                        requireContext()!!,
-//                        "com.ernestkoko.superpro.fileprovider", imageFile
-//                    )
-//                    //save the image to the image file
-//                    pickImageIntent.putExtra(MediaStore.EXTRA_OUTPUT, imageFile)
-//                    startActivityForResult(pickImageIntent, PICK_IMAGE_REQUEST_CODE)
-//                }
-//            }
-//        }
-        startActivityForResult(intent, PICK_IMAGE_REQUEST_CODE)
 
     }
 
-    //fun prepare to take photo
-    private fun prepToTakePhoto(){
-        //check if permission is granted
-        if(ContextCompat.checkSelfPermission(requireContext(), android.Manifest.permission.CAMERA )
-            == PackageManager.PERMISSION_GRANTED){
-            //if granted, take photo
-            takePhotoWithCamera()
-        } else{
-            //else ask for permission
-            val permissionRequest = arrayOf(android.Manifest.permission.CAMERA)
-            requestPermissions(permissionRequest, CAMERA_PERMISSION_REQUEST_CODE)
+    /**
+     * method for getting the Uri of the image from the callback class
+     * @param imagePath is the given image path,Uri
+     */
+    override fun getImagePath(imagePath: Uri) {
+        //check if the uri is no empty
+        if (imagePath.toString() != "") {
+            //use Picasso to display the image on the imageView
+            Picasso.get().load(imagePath).fit().centerCrop().into(binding.newProductImage)
+            //if true, set the bitmap to null
+            mSelectedImageBitMap = null
+            //set the uri to the given uri
+            mSelectedImageUri = imagePath
+            Log.i(TAG, "getImagePath: got the image Uri $mSelectedImageUri")
+
+
         }
     }
 
-    override fun onRequestPermissionsResult(
-        requestCode: Int,
-        permissions: Array<out String>,
-        grantResults: IntArray
-    ) {
-        super.onRequestPermissionsResult(requestCode, permissions, grantResults)
-        //check for the request code
-        if (requestCode == CAMERA_PERMISSION_REQUEST_CODE){
-            //CHECK IF PERMISSION GRANTED
-            if (grantResults[0] == PackageManager.PERMISSION_GRANTED && grantResults.isNotEmpty()){
-                //permission granted, take photo
-                takePhotoWithCamera()
-            }else{
-                //make a toast to the user that it can not take pic without permission
-                Toast.makeText(requireContext(),
-                    "Unable to take photo without permission", Toast.LENGTH_LONG).show()
-            }
+    /**
+     * used for getting bitmap from the callback class
+     * @param bitmap is the bitmap gotten from the callback class
+     */
+    override fun getImageBitmap(bitmap: Bitmap) {
+
+        //check if bitmap is not null
+        if (bitmap != null) {
+            //convert the bitMap to uri so Picasso can display it
+            val uri = convertBitmapToUri(bitmap)
+            //display the image with Picasso on the imageView
+            Picasso.get().load(uri).fit().centerCrop().into(binding.newProductImage)
+
+            //if not null set the uri to null
+            mSelectedImageUri = null
+            //set the bitmap to the given bitmap
+            mSelectedImageBitMap = bitmap
+            Log.i(TAG, "getImageBitmap: got the image bitmap $mSelectedImageBitMap")
+
         }
+    }
+
+    /**
+     * converts bitmap to uri and return the uri
+     * @param bitmap is the input bitmap
+     */
+    private fun convertBitmapToUri(bitmap: Bitmap): Uri {
+        val file = File(requireContext().cacheDir, "ImageFile")
+        file.delete() // delete in case it exists
+        file.createNewFile()
+        val outputStream = file.outputStream()
+        val byteArrayOutputStream = ByteArrayOutputStream()
+        bitmap.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream)
+        val byteArray = byteArrayOutputStream.toByteArray()
+        outputStream.write(byteArray)
+        outputStream.flush()
+        outputStream.close()
+        byteArrayOutputStream.close()
+        val uri = file.toURI().toString()
+        //return the uri
+        return Uri.parse(uri)
+
+
     }
 }
